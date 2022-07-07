@@ -50,8 +50,6 @@ export const Home = () => {
 
 	const handleSort = (field, type) => {
 		const sorted = sort(users, field, type);
-
-		console.log({ sorted });
 		setUsers(sorted);
 		dispatch(setUsersData([]));
 	};

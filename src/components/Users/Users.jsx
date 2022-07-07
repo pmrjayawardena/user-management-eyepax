@@ -55,7 +55,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 							<TableCell>ID</TableCell>
 							<TableCell
 								align='right'
-								onClick={() => handleSort('firstName', 'ASC')}
+								onClick={() => handleSort('firstName', 'DESC')}
 							>
 								First Name
 								{firstNameArrow ? <ArrowDropUp /> : <ArrowDropDown />}

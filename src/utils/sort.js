@@ -5,7 +5,8 @@ export const sort = (users, field, type) => {
 				return -1;
 			}
 			if (a.first_name > b.first_name) {
-				return 1;
+				console.log('came2');
+				return -1;
 			}
 		} else if (field == 'lastName') {
 			if (a.last_name < b.last_name) {
