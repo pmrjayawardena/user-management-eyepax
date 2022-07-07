@@ -1,25 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { Home } from './routes/Home/Home';
+import { Routes, Route } from 'react-router-dom';
+import { SingleUser } from './components/SingleUser/SingleUser';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Routes>
+			{/* here we are persisting the navigation and with index we match the compoentn to home */}
+			<Route path='/' element={<Home />} index />
+			<Route path='user/:id' element={<SingleUser />} />
+		</Routes>
+	);
 }
 
 export default App;
