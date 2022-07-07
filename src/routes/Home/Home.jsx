@@ -8,6 +8,7 @@ import { Toast } from '../../components/UI/Toast/Toast';
 import { sort } from '../../utils/sort';
 import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
 import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
+
 export const Home = () => {
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state.user.users);
@@ -47,6 +48,8 @@ export const Home = () => {
 
 	const handleSort = (field, type) => {
 		const sorted = sort(users, field, type);
+
+		console.log({ sorted });
 		setUsers(sorted);
 	};
 

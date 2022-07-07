@@ -19,6 +19,7 @@ import {
 	ActionButtonContainer,
 	DeleteButton,
 } from './UserStyle';
+
 const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 	const dispatch = useDispatch();
 	return (
@@ -45,7 +46,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 				/>
 			</SearchBoxContainer>
 			<TableContainer component={Paper}>
-				<Table stickyHeader sx={{ minWidth: 650 }} aria-label='simple table'>
+				<Table stickyHeader aria-label='simple table'>
 					<TableHead>
 						<TableRow>
 							<TableCell>ID</TableCell>

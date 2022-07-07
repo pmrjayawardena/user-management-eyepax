@@ -29,16 +29,3 @@ export const DeleteButton = styled.button`
 	color: red;
 	cursor: pointer;
 `;
-
-// .user-item {
-// 	display: flex;
-// 	align-items: center;
-// 	justify-content: space-between;
-// }
-
-// .custom-btn {
-// 	background: #aef5ae;
-// 	padding: 6px 10px;
-// 	border-radius: 6px;
-// 	font-size: 13px;
-// }
