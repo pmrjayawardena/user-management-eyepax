@@ -1,37 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Users from '../../components/Users/Users';
 import { Pagination } from '../../components/Pagination/Pagination';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsersData, setMetaData, setCount } from '../../store/user.action';
 import Loader from '../../components/UI/Loader/Loader';
 import { Toast } from '../../components/UI/Toast/Toast';
 import { ToastContainer, toast } from 'react-toastify';
 import { sort } from '../../utils/sort';
+import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
 
 export const Home = () => {
 	const dispatch = useDispatch();
-
 	const usersData = useSelector((state) => state.user.users);
-	const [users, setUsers] = useState(usersData);
 	const meta = useSelector((state) => state.user.meta);
 	const count = useSelector((state) => state.user.count);
+
+	const [users, setUsers] = useState(usersData);
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const handleDrawerToggle = () => {
-		setMobileOpen(!mobileOpen);
-	};
 	const getUsers = async () => {
 		setLoading(true);
 		try {
-			const data = await axios.get(
-				`https://reqres.in/api/users?page=${currentPage}`
-			);
+			const data = await fetchAllUsers(currentPage);
 			const usersData = data.data.data;
+
 			setUsers(usersData);
-			dispatch(setUsersData(usersData));
-			dispatch(setMetaData(data.data));
+			// dispatch(setUsersData(usersData));
+			// dispatch(setMetaData(data.data));
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -44,7 +40,7 @@ export const Home = () => {
 		setUsers(filteredUsers);
 		dispatch(setUsersData(filteredUsers));
 		Toast('Deleted record');
-		const data = await axios.delete(`https://reqres.in/api/users/${id}`);
+		const data = await deleteUser(id);
 	};
 
 	var setPaginationPage = (page) => {
@@ -53,7 +49,12 @@ export const Home = () => {
 
 	const handleSort = (field, type) => {
 		const sorted = sort(users, field, type);
+
 		setUsers(sorted);
+	};
+
+	const handleCount = () => {
+		dispatch(setCount());
 	};
 	const handleSearch = (e) => {
 		const searchTerm = e.target.value;
@@ -96,6 +97,8 @@ export const Home = () => {
 						handleSearch={handleSearch}
 						handleSort={handleSort}
 					/>
+					{count}
+					<button onClick={handleCount}>Count increse</button>
 					<Pagination
 						totalPages={meta.total_pages}
 						paginate={setPaginationPage}

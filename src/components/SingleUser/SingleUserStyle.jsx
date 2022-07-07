@@ -1,18 +1,22 @@
-.single-user-card {
+import styled from 'styled-components';
+
+export const UserCardContainer = styled.nav`
 	width: 300px;
 	margin: auto;
 	margin-top: 5rem;
-}
-.action-btn {
+`;
+
+export const ActionButtonContainer = styled.nav`
 	display: flex;
 	margin-top: 2rem;
 	gap: 20px;
-}
-.action-btn a {
-	text-decoration: none;
-	color: #000;
-}
-button.submit-btn {
+	a {
+		text-decoration: none;
+		color: #000;
+	}
+`;
+
+export const SubmitButton = styled.button`
 	border: 1px solid rgba(25, 118, 210, 0.5);
 	height: 36px;
 	border-radius: 4px;
@@ -21,4 +25,4 @@ button.submit-btn {
 	color: #1976d2;
 	font-size: 16px;
 	cursor: pointer;
-}
+`;

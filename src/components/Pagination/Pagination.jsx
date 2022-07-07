@@ -1,5 +1,7 @@
 import React from 'react';
-import './PaginationStyle.css';
+import './PaginationStyle.jsx';
+import { PaginateContainer, PageItemList } from './PaginationStyle';
+
 export const Pagination = ({ totalPages, paginate, pageNumber }) => {
 	const pageNumbers = [];
 	for (let i = 1; i <= totalPages; i++) {
@@ -7,18 +9,18 @@ export const Pagination = ({ totalPages, paginate, pageNumber }) => {
 	}
 
 	return (
-		<nav className='paginate-container'>
+		<PaginateContainer>
 			{pageNumbers.map((number) => {
 				return (
-					<li
+					<PageItemList
 						key={number}
 						className={`page-item ${pageNumber == number ? 'active' : ''}`}
 						onClick={() => paginate(number)}
 					>
 						<span className='page-link'>{number}</span>
-					</li>
+					</PageItemList>
 				);
 			})}
-		</nav>
+		</PaginateContainer>
 	);
 };

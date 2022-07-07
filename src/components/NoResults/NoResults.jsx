@@ -1,5 +1,5 @@
-import React from 'react';
-import './NoResults.css';
+import './NoResultsStyle.jsx';
+import { NoResultContainer } from './NoResultsStyle';
 export const NoResults = () => {
-	return <div className='no-results'>No Results Found</div>;
+	return <NoResultContainer>No Results Found</NoResultContainer>;
 };

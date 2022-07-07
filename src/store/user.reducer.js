@@ -8,17 +8,17 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 	switch (type) {
 		case 'SET_USERS':
 			return {
-				...state, //previus state
+				...state,
 				users: payload,
 			};
 		case 'SET_META_DATA':
 			return {
-				...state, //previus state
+				...state,
 				meta: payload,
 			};
 		case 'SET_COUNT':
 			return {
-				...state, //previus state
+				...state,
 				count: state.count + 1,
 			};
 		default:

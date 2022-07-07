@@ -1,5 +1,4 @@
 import React from 'react';
-import './UserStyle.css';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,14 +12,19 @@ import { CustomButton } from '../UI/Button/Button';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
-
+import {
+	UserContainer,
+	SearchBoxContainer,
+	ActionButtonContainer,
+	DeleteButton,
+} from './UserStyle';
 const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 	const dispatch = useDispatch();
 	return (
-		<div className='container'>
+		<UserContainer>
 			<h1>User Administration</h1>
 
-			<div className='search-box'>
+			<SearchBoxContainer>
 				<TextField
 					id='outlined-search'
 					label='Search field'
@@ -28,7 +32,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 					onChange={(e) => handleSearch(e)}
 					size='small'
 				/>
-			</div>
+			</SearchBoxContainer>
 			<TableContainer component={Paper}>
 				<Table stickyHeader sx={{ minWidth: 650 }} aria-label='simple table'>
 					<TableHead>
@@ -70,7 +74,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 									<TableCell align='right'>{user.last_name}</TableCell>
 									<TableCell align='right'>{user.email}</TableCell>
 									<TableCell align='right'>
-										<div className='action-buttons'>
+										<ActionButtonContainer>
 											<Link to={`/user/${user.id}`}>
 												<CustomButton
 													variant='outlined'
@@ -84,19 +88,16 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 												size='medium'
 											>
 												<a href={`mailto:${user.email}`}>
-													{' '}
 													Contact
 												</a>
 											</CustomButton>
-											<button
+											<DeleteButton
 												className='submit-btn'
-												variant='outlined'
-												color='error'
 												onClick={() => deleteUser(user.id)}
 											>
 												Delete
-											</button>
-										</div>
+											</DeleteButton>
+										</ActionButtonContainer>
 									</TableCell>
 								</TableRow>
 							))
@@ -104,7 +105,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-		</div>
+		</UserContainer>
 	);
 };
 

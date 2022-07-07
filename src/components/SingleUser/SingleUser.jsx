@@ -7,23 +7,29 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import './SingleUser.css';
+import './SingleUserStyle.jsx';
 import Input from '@mui/material/Input';
 import { CustomButton } from '../UI/Button/Button';
 const ariaLabel = { 'aria-label': 'description' };
 import Loader from '../UI/Loader/Loader';
 import { Toast } from '../UI/Toast/Toast';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { updateUser, fetchAUser } from '../../requests/UserRequest';
+import {
+	UserCardContainer,
+	SubmitButton,
+	ActionButtonContainer,
+} from './SingleUserStyle';
 export const SingleUser = () => {
 	let { id } = useParams();
 	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
+
 	const getUser = async () => {
 		setLoading(true);
-		const data = await axios.get(`https://reqres.in/api/users/${id}`);
+		const data = await fetchAUser(id);
 		setLoading(false);
 		setUser(data.data.data);
 		setFirstName(data.data.data.first_name);
@@ -40,17 +46,20 @@ export const SingleUser = () => {
 		setLastName(target);
 	};
 	const updateUserData = async () => {
-		const data = await axios.put(`https://reqres.in/api/users/${id}`, {
-			first_name: firstName,
-			last_name: lastName,
-		});
+		const data = await updateUser(
+			{
+				first_name: firstName,
+				last_name: lastName,
+			},
+			id
+		);
 
 		console.log(data);
 	};
+
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 		updateUserData();
-		console.log('form submitted');
 		Toast('Updated Successfully');
 	};
 
@@ -73,7 +82,7 @@ export const SingleUser = () => {
 				draggable
 				pauseOnHover
 			/>
-			<div className='single-user-card'>
+			<UserCardContainer>
 				<Card sx={{ maxWidth: 345 }}>
 					<CardActionArea>
 						<CardMedia
@@ -95,6 +104,7 @@ export const SingleUser = () => {
 				<form onSubmit={handleFormSubmit}>
 					<label>
 						<Input
+							placeholder='firstName'
 							value={firstName}
 							inputProps={ariaLabel}
 							onChange={handleInputChange}
@@ -108,23 +118,23 @@ export const SingleUser = () => {
 							onChange={handleInputChangeLastName}
 						/>
 					</label>
-					<div className='action-btn'>
+					<ActionButtonContainer>
 						<Link to={`/`}>
 							<CustomButton variant='outlined' size='medium'>
 								Go back
 							</CustomButton>
 						</Link>
-						<button
+						<SubmitButton
 							variant='outlined'
 							size='medium'
 							type='submit'
 							className='submit-btn'
 						>
 							update
-						</button>
-					</div>
+						</SubmitButton>
+					</ActionButtonContainer>
 				</form>
-			</div>
+			</UserCardContainer>
 		</>
 	);
 };

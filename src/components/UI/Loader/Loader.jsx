@@ -1,11 +1,11 @@
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import './Loader.css';
+import { SpinnerContainer } from './LoaderStyle';
 const Loader = () => {
 	return (
-		<div className='loading-spinner-container'>
+		<SpinnerContainer>
 			<CircularProgress />
-		</div>
+		</SpinnerContainer>
 	);
 };
 
