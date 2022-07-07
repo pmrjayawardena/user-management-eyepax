@@ -2,13 +2,15 @@ import './App.css';
 import { Home } from './routes/Home/Home';
 import { Routes, Route } from 'react-router-dom';
 import { SingleUser } from './components/SingleUser/SingleUser';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { Navigation } from './components/Navigation/Navigation';
 function App() {
 	return (
 		<Routes>
-			{/* here we are persisting the navigation and with index we match the compoentn to home */}
-			<Route path='/' element={<Home />} index />
-			<Route path='user/:id' element={<SingleUser />} />
+			<Route path='/' element={<Navigation />}>
+				<Route index element={<Home />} />
+				<Route path='user/:id' element={<SingleUser />} />
+			</Route>
 		</Routes>
 	);
 }

@@ -9,15 +9,22 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import './SingleUser.css';
 import Input from '@mui/material/Input';
+import { CustomButton } from '../UI/Button/Button';
 const ariaLabel = { 'aria-label': 'description' };
+import Loader from '../UI/Loader/Loader';
+import { Toast } from '../UI/Toast/Toast';
+import { ToastContainer, toast } from 'react-toastify';
+
 export const SingleUser = () => {
 	let { id } = useParams();
-	const [user, setUser] = useState({ first_name: '', last_name: '' });
-
+	const [user, setUser] = useState({});
+	const [loading, setLoading] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const getUser = async () => {
+		setLoading(true);
 		const data = await axios.get(`https://reqres.in/api/users/${id}`);
+		setLoading(false);
 		setUser(data.data.data);
 		setFirstName(data.data.data.first_name);
 		setLastName(data.data.data.last_name);
@@ -44,55 +51,80 @@ export const SingleUser = () => {
 		e.preventDefault();
 		updateUserData();
 		console.log('form submitted');
+		Toast('Updated Successfully');
 	};
 
 	useEffect(() => {
 		getUser();
 	}, [id]);
 
-	return (
-		<div className='single-user-card'>
-			<Card sx={{ maxWidth: 345 }}>
-				<CardActionArea>
-					<CardMedia
-						component='img'
-						image={user.avatar}
-						alt={user.first_name}
-					/>
-					<CardContent>
-						<Typography gutterBottom variant='h5' component='div'>
-							{user.first_name} {user.last_name}
-						</Typography>
-						<Typography variant='body2' color='text.secondary'>
-							{user.email}
-						</Typography>
-					</CardContent>
-				</CardActionArea>
-			</Card>
+	return loading ? (
+		<Loader />
+	) : (
+		<>
+			<ToastContainer
+				position='bottom-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			<div className='single-user-card'>
+				<Card sx={{ maxWidth: 345 }}>
+					<CardActionArea>
+						<CardMedia
+							component='img'
+							image={user.avatar}
+							alt={user.first_name}
+						/>
+						<CardContent>
+							<Typography gutterBottom variant='h5' component='div'>
+								{user.first_name} {user.last_name}
+							</Typography>
+							<Typography variant='body2' color='text.secondary'>
+								{user.email}
+							</Typography>
+						</CardContent>
+					</CardActionArea>
+				</Card>
 
-			<form onSubmit={handleFormSubmit}>
-				<label>
-					<Input
-						value={firstName}
-						inputProps={ariaLabel}
-						onChange={handleInputChange}
-					/>
-				</label>
-				<br />
-				<label>
-					<Input
-						value={lastName}
-						inputProps={ariaLabel}
-						onChange={handleInputChangeLastName}
-					/>
-				</label>
-				<div className='action-btn'>
-					<button>
-						<Link to={`/`}> Go back</Link>
-					</button>
-					<button type='submit'>update</button>
-				</div>
-			</form>
-		</div>
+				<form onSubmit={handleFormSubmit}>
+					<label>
+						<Input
+							value={firstName}
+							inputProps={ariaLabel}
+							onChange={handleInputChange}
+						/>
+					</label>
+					<br />
+					<label>
+						<Input
+							value={lastName}
+							inputProps={ariaLabel}
+							onChange={handleInputChangeLastName}
+						/>
+					</label>
+					<div className='action-btn'>
+						<Link to={`/`}>
+							<CustomButton variant='outlined' size='medium'>
+								Go back
+							</CustomButton>
+						</Link>
+						<button
+							variant='outlined'
+							size='medium'
+							type='submit'
+							className='submit-btn'
+						>
+							update
+						</button>
+					</div>
+				</form>
+			</div>
+		</>
 	);
 };

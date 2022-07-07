@@ -5,6 +5,10 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsersData, setMetaData, setCount } from '../../store/user.action';
 import Loader from '../../components/UI/Loader/Loader';
+import { Toast } from '../../components/UI/Toast/Toast';
+import { ToastContainer, toast } from 'react-toastify';
+import { sort } from '../../utils/sort';
+
 export const Home = () => {
 	const dispatch = useDispatch();
 
@@ -12,45 +16,43 @@ export const Home = () => {
 	const [users, setUsers] = useState(usersData);
 	const meta = useSelector((state) => state.user.meta);
 	const count = useSelector((state) => state.user.count);
-
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 
+	const handleDrawerToggle = () => {
+		setMobileOpen(!mobileOpen);
+	};
 	const getUsers = async () => {
 		setLoading(true);
-		const data = await axios.get(`https://reqres.in/api/users?page=${currentPage}`);
-		const usersData = data.data.data;
-		setUsers(usersData);
-		dispatch(setUsersData(usersData));
-		dispatch(setMetaData(data.data));
-		setLoading(false);
-	};
-
-	var setPaginationPage = (page) => {
-		console.log({ page });
-		setCurrentPage(page);
+		try {
+			const data = await axios.get(
+				`https://reqres.in/api/users?page=${currentPage}`
+			);
+			const usersData = data.data.data;
+			setUsers(usersData);
+			dispatch(setUsersData(usersData));
+			dispatch(setMetaData(data.data));
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+			Toast('something went wrong');
+		}
 	};
 
 	const deleteUserById = async (id) => {
 		const filteredUsers = users.filter((item) => item.id != id);
+		setUsers(filteredUsers);
 		dispatch(setUsersData(filteredUsers));
+		Toast('Deleted record');
 		const data = await axios.delete(`https://reqres.in/api/users/${id}`);
 	};
 
-	const handleCount = () => {
-		dispatch(setCount());
+	var setPaginationPage = (page) => {
+		setCurrentPage(page);
 	};
+
 	const handleSort = (field, type) => {
-		const sorted = users.sort(function (a, b) {
-			if (a.first_name < b.first_name) {
-				return -1;
-			}
-			if (a.first_name > b.first_name) {
-				return 1;
-			}
-			return 0;
-		});
-		console.log('came soryed', sorted);
+		const sorted = sort(users, field, type);
 		setUsers(sorted);
 	};
 	const handleSearch = (e) => {
@@ -66,6 +68,7 @@ export const Home = () => {
 		});
 		setUsers(searchedData);
 	};
+
 	useEffect(() => {
 		getUsers();
 	}, [currentPage]);
@@ -76,6 +79,17 @@ export const Home = () => {
 				<Loader />
 			) : (
 				<>
+					<ToastContainer
+						position='bottom-right'
+						autoClose={5000}
+						hideProgressBar={false}
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
+					/>
 					<Users
 						users={users ? users : []}
 						deleteUser={deleteUserById}
@@ -89,8 +103,6 @@ export const Home = () => {
 					/>
 				</>
 			)}
-			{/* count : {count}
-			<button onClick={() => dispatch(setCount())}>count increase</button> */}
 		</>
 	);
 };

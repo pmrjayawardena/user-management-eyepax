@@ -1,5 +1,24 @@
 .single-user-card {
-	width: 600px;
+	width: 300px;
 	margin: auto;
+	margin-top: 5rem;
+}
+.action-btn {
+	display: flex;
 	margin-top: 2rem;
+	gap: 20px;
+}
+.action-btn a {
+	text-decoration: none;
+	color: #000;
+}
+button.submit-btn {
+	border: 1px solid rgba(25, 118, 210, 0.5);
+	height: 36px;
+	border-radius: 4px;
+	width: 100px;
+	background: transparent;
+	color: #1976d2;
+	font-size: 16px;
+	cursor: pointer;
 }
