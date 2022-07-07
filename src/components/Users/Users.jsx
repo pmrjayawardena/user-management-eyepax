@@ -12,6 +12,7 @@ import { CustomButton } from '../UI/Button/Button';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
+import { ToastContainer, toast } from 'react-toastify';
 import {
 	UserContainer,
 	SearchBoxContainer,
@@ -23,7 +24,17 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 	return (
 		<UserContainer>
 			<h1>User Administration</h1>
-
+			<ToastContainer
+				position='bottom-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 			<SearchBoxContainer>
 				<TextField
 					id='outlined-search'

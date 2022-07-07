@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { Toast } from '../components/UI/Toast/Toast';
 export const fetchAllUsers = async (currentPage) => {
 	try {
 		const allUsers = await axios.get(

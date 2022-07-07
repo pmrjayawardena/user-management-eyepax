@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUsersData, setMetaData, setCount } from '../../store/user.action';
 import Loader from '../../components/UI/Loader/Loader';
 import { Toast } from '../../components/UI/Toast/Toast';
-import { ToastContainer, toast } from 'react-toastify';
 import { sort } from '../../utils/sort';
 import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
-
+import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
 export const Home = () => {
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state.user.users);
@@ -24,10 +23,9 @@ export const Home = () => {
 		try {
 			const data = await fetchAllUsers(currentPage);
 			const usersData = data.data.data;
-
 			setUsers(usersData);
-			// dispatch(setUsersData(usersData));
-			// dispatch(setMetaData(data.data));
+			dispatch(setUsersData(usersData));
+			dispatch(setMetaData(data.data));
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -49,13 +47,9 @@ export const Home = () => {
 
 	const handleSort = (field, type) => {
 		const sorted = sort(users, field, type);
-
 		setUsers(sorted);
 	};
 
-	const handleCount = () => {
-		dispatch(setCount());
-	};
 	const handleSearch = (e) => {
 		const searchTerm = e.target.value;
 		const searchedData = usersData.filter((item) => {
@@ -77,28 +71,18 @@ export const Home = () => {
 	return (
 		<>
 			{loading ? (
-				<Loader />
+				<SpinnerContainer>
+					<Loader />
+				</SpinnerContainer>
 			) : (
 				<>
-					<ToastContainer
-						position='bottom-right'
-						autoClose={5000}
-						hideProgressBar={false}
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss
-						draggable
-						pauseOnHover
-					/>
 					<Users
 						users={users ? users : []}
 						deleteUser={deleteUserById}
 						handleSearch={handleSearch}
 						handleSort={handleSort}
 					/>
-					{count}
-					<button onClick={handleCount}>Count increse</button>
+
 					<Pagination
 						totalPages={meta.total_pages}
 						paginate={setPaginationPage}

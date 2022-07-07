@@ -15,6 +15,7 @@ import Loader from '../UI/Loader/Loader';
 import { Toast } from '../UI/Toast/Toast';
 import { ToastContainer, toast } from 'react-toastify';
 import { updateUser, fetchAUser } from '../../requests/UserRequest';
+import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
 import {
 	UserCardContainer,
 	SubmitButton,
@@ -24,6 +25,7 @@ export const SingleUser = () => {
 	let { id } = useParams();
 	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
+	const [updating, setUpdating] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 
@@ -46,6 +48,7 @@ export const SingleUser = () => {
 		setLastName(target);
 	};
 	const updateUserData = async () => {
+		setUpdating(true);
 		const data = await updateUser(
 			{
 				first_name: firstName,
@@ -54,13 +57,14 @@ export const SingleUser = () => {
 			id
 		);
 
+		setUpdating(false);
+		Toast('Updated Successfully');
 		console.log(data);
 	};
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 		updateUserData();
-		Toast('Updated Successfully');
 	};
 
 	useEffect(() => {
@@ -68,7 +72,9 @@ export const SingleUser = () => {
 	}, [id]);
 
 	return loading ? (
-		<Loader />
+		<SpinnerContainer>
+			<Loader />
+		</SpinnerContainer>
 	) : (
 		<>
 			<ToastContainer
@@ -130,7 +136,7 @@ export const SingleUser = () => {
 							type='submit'
 							className='submit-btn'
 						>
-							update
+							{updating ? <Loader /> : 'Update'}
 						</SubmitButton>
 					</ActionButtonContainer>
 				</form>
