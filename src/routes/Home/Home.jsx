@@ -24,9 +24,11 @@ export const Home = () => {
 		try {
 			const data = await fetchAllUsers(currentPage);
 			const usersData = data.data.data;
+
 			setUsers(usersData);
 			dispatch(setUsersData(usersData));
 			dispatch(setMetaData(data.data));
+
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -51,6 +53,7 @@ export const Home = () => {
 
 		console.log({ sorted });
 		setUsers(sorted);
+		dispatch(setUsersData([]));
 	};
 
 	const handleSearch = (e) => {

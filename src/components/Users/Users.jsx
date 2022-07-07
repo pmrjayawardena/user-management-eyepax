@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,7 +21,10 @@ import {
 } from './UserStyle';
 
 const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
+	// const users = useSelector((state) => state.user.users);
 	const dispatch = useDispatch();
+	const [firstNameArrow, setFirstNameArrow] = useState(true);
+
 	return (
 		<UserContainer>
 			<h1>User Administration</h1>
@@ -50,15 +53,29 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 					<TableHead>
 						<TableRow>
 							<TableCell>ID</TableCell>
-							<TableCell align='right'>
+							<TableCell
+								align='right'
+								onClick={() => handleSort('firstName', 'ASC')}
+							>
 								First Name
-								<ArrowDropUp
-									onClick={() => handleSort('firstName', 'ASC')}
-								/>
-								{/* <ArrowDropDown onClick={() => handleSortA('DESC')} /> */}
+								{firstNameArrow ? <ArrowDropUp /> : <ArrowDropDown />}
 							</TableCell>
-							<TableCell align='right'>Last Name</TableCell>
-							<TableCell align='right'>Email</TableCell>
+							<TableCell
+								align='right'
+								onClick={() => handleSort('lastName', 'ASC')}
+							>
+								Last Name
+								<ArrowDropUp />
+								<ArrowDropDown />
+							</TableCell>
+							<TableCell
+								align='right'
+								onClick={() => handleSort('email', 'ASC')}
+							>
+								Email
+								<ArrowDropUp />
+								<ArrowDropDown />
+							</TableCell>
 							<TableCell align='right'>Actions</TableCell>
 						</TableRow>
 					</TableHead>
