@@ -1,4 +1,4 @@
-import { USER_ACTION_TYPES } from '../actionTypes/userActionTypes';
+import { USER_ACTION_TYPES } from './types';
 
 export const setUsersData = (user) => {
 	return { type: USER_ACTION_TYPES.SET_USERS, payload: user };
