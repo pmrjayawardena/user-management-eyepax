@@ -26,7 +26,7 @@ npm install
 npm start
 ```
 
-## Running Test Cases
+## To run the tests
 
 ```
 npm run test

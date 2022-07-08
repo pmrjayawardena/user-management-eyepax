@@ -99,6 +99,7 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 							<TableCell
 								align='right'
 								onClick={() => changeArrows('firstName')}
+								style={{ cursor: 'pointer' }}
 							>
 								First Name
 								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
@@ -106,6 +107,7 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 							<TableCell
 								align='right'
 								onClick={() => changeArrows('lastName')}
+								style={{ cursor: 'pointer' }}
 							>
 								Last Name
 								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
@@ -113,6 +115,7 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 							<TableCell
 								align='right'
 								onClick={() => changeArrows('email')}
+								style={{ cursor: 'pointer' }}
 							>
 								Last Name
 								{!order ? <ArrowDropUp /> : <ArrowDropDown />}

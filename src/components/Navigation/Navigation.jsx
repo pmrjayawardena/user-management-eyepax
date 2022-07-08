@@ -14,6 +14,7 @@ export const Navigation = () => {
 				component='nav'
 				className='custom-header'
 				style={{ textDecoration: 'none', color: '#fff' }}
+				position='fixed'
 			>
 				<Toolbar>
 					<IconButton
