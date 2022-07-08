@@ -7,7 +7,9 @@ export const fetchAllUsers = async (currentPage) => {
 		);
 		return allUsers;
 	} catch (error) {
-		console.log('Fetching data failed');
+		return {
+			error: 'error fetching users',
+		};
 	}
 };
 export const fetchAUser = async (id) => {
@@ -15,7 +17,9 @@ export const fetchAUser = async (id) => {
 		const fetchedUser = await axios.get(`https://reqres.in/api/users/${id}`);
 		return fetchedUser;
 	} catch (error) {
-		console.log('Fetching data failed');
+		return {
+			error: 'error fetching the user',
+		};
 	}
 };
 export const updateUser = async (body, id) => {
@@ -23,7 +27,9 @@ export const updateUser = async (body, id) => {
 		const updated = axios.put(`https://reqres.in/api/users/${id}`, body);
 		return updated;
 	} catch (error) {
-		console.log('something went wrong');
+		return {
+			error: 'error updating the user',
+		};
 	}
 };
 
