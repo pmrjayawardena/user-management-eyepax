@@ -70,7 +70,6 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 			</div>
 			<ToastContainer
 				position='bottom-right'
-				autoClose={5000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick
@@ -78,6 +77,8 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
+				limit={1}
+				autoClose={100}
 			/>
 			<SearchBoxContainer>
 				<TextField

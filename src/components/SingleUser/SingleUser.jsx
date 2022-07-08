@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
@@ -82,7 +82,7 @@ export const SingleUser = () => {
 		<>
 			<ToastContainer
 				position='bottom-right'
-				autoClose={5000}
+				autoClose={100}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick
@@ -90,6 +90,7 @@ export const SingleUser = () => {
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
+				limit={1}
 			/>
 			<UserCardContainer>
 				<Card sx={{ maxWidth: 345 }}>

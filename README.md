@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+## Highlevel Approch Used
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In the project i have used Redux for the state management tool.\
+For persist the state of the app used redux-persist library.\
+For the routing purpose used react-router library.\
+Project uses Material UI as a CSS Framework.\
+For the custom stylings i have used styled components.\
 
 ## Available Scripts
 
