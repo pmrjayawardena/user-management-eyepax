@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,8 +24,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
-	const [open, setOpen] = React.useState(false);
+const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) => {
+	const [open, setOpen] = useState(false);
 	const [userId, setUserId] = useState(null);
 	const [order, setOrder] = useState(true);
 	const handleClickOpen = (id) => {
@@ -48,7 +48,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 
 	return (
 		<UserContainer>
-			<h1>User Administration</h1>
+			<h1>Users Data</h1>
 			<div>
 				<Dialog
 					open={open}
@@ -81,6 +81,8 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 			/>
 			<SearchBoxContainer>
 				<TextField
+					color='secondary'
+					focused
 					id='outlined-search'
 					label='Search field'
 					type='search'

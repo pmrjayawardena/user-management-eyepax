@@ -1,8 +1,9 @@
 import './App.css';
-import { Home } from './routes/Home/Home';
-import { Routes, Route } from 'react-router-dom';
-import { SingleUser } from './components/SingleUser/SingleUser';
 import 'react-toastify/dist/ReactToastify.css';
+import { Routes, Route } from 'react-router-dom';
+
+import { Home } from './routes/Home/Home';
+import { SingleUser } from './components/SingleUser/SingleUser';
 import { Navigation } from './components/Navigation/Navigation';
 
 function App() {

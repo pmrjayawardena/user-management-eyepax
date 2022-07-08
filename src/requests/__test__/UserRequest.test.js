@@ -4,8 +4,8 @@ import axios from 'axios';
 describe('result of the sorted array when', () => {
 	it('should fetch the users data', async () => {
 		const data = await fetchAllUsers(1);
-		const usersArray = data.data.data;
-		expect(usersArray.length).toBe(6);
+		const usersArray = data.users;
+		expect(usersArray.length).toBe(12);
 	});
 
 	it('should fetch a singleUser', async () => {

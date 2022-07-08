@@ -1,13 +1,23 @@
 import styled from 'styled-components';
 
 export const UserCardContainer = styled.nav`
-	width: 300px;
-	margin: auto;
-	margin-top: 5rem;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 `;
 
 export const FormContainer = styled.div`
 	margin-top: 2rem;
+`;
+
+export const SmallLoader = styled.div`
+	display: flex;
+	margin-left: 10px;
+	align-items: center;
+	font-size: 13px;
+	gap: 10px;
 `;
 export const ActionButtonContainer = styled.nav`
 	display: flex;
@@ -21,11 +31,11 @@ export const ActionButtonContainer = styled.nav`
 
 export const SubmitButton = styled.button`
 	border: 1px solid rgba(25, 118, 210, 0.5);
-	height: 36px;
+	height: 32px;
 	border-radius: 4px;
 	width: 100px;
 	background: transparent;
 	color: #1976d2;
-	font-size: 16px;
+	font-size: 14px;
 	cursor: pointer;
 `;

@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Users from '../../components/Users/Users';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUsersData, setCurrentPage } from '../../actions/userActions';
+import { setUsersData, setCurrentPage, setCurrentUsers } from '../../actions/userActions';
 import Loader from '../../components/UI/Loader/Loader';
 import { Toast } from '../../components/UI/Toast/Toast';
 import { sort } from '../../utils/sort';
 import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
 import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
-
+import { HomeContainer } from './HomeStyle';
 export const Home = () => {
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state.user.users);
 	const currentPage = useSelector((state) => state.user.currentPage);
+	const currentUsers = useSelector((state) => state.user.currentUsers);
 	const [users, setUsers] = useState(usersData);
 	const [loading, setLoading] = useState(true);
 	const [usersPerPage, setUsersPerPage] = useState(6);
@@ -28,8 +29,7 @@ export const Home = () => {
 				dispatch(setUsersData(usersData));
 				setLoading(false);
 			} else {
-				//get current posts
-
+				setUsers(usersData);
 				setLoading(false);
 				return;
 			}
@@ -38,7 +38,9 @@ export const Home = () => {
 			Toast('something went wrong');
 		}
 	};
-
+	useEffect(() => {
+		getUsers();
+	}, []);
 	const deleteUserById = async (id) => {
 		const filteredUsers = users.filter((item) => item.id != id);
 		setUsers(filteredUsers);
@@ -54,15 +56,14 @@ export const Home = () => {
 	const handleSort = (field, type) => {
 		const sorted = sort(users, field, type);
 		setUsers(sorted);
+
 		dispatch(setUsersData(sorted.slice()));
 	};
 
 	const handleSearch = (e) => {
 		const searchTerm = e.target.value;
 		setSearchTerm(searchTerm);
-	};
 
-	useEffect(() => {
 		const searchedData = usersData.filter((item) => {
 			if (
 				item.first_name.toLowerCase().match(searchTerm.toLowerCase()) ||
@@ -74,14 +75,14 @@ export const Home = () => {
 		});
 
 		setUsers(searchedData);
-	}, [searchTerm]);
+	};
 
-	useEffect(() => {
-		getUsers();
-	}, []);
+	let currentUsersData;
+
 	const indexOfLastUser = currentPage * usersPerPage;
 	const indexOfFirstUser = indexOfLastUser - usersPerPage;
-	const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+	currentUsersData = users.slice(indexOfFirstUser, indexOfLastUser);
 
 	return (
 		<>
@@ -90,9 +91,10 @@ export const Home = () => {
 					<Loader />
 				</SpinnerContainer>
 			) : (
-				<>
+				<HomeContainer>
 					<Users
-						users={currentUsers ? currentUsers : []}
+						filteredUsers={users}
+						users={currentUsersData}
 						deleteUser={deleteUserById}
 						handleSearch={handleSearch}
 						handleSort={handleSort}
@@ -104,7 +106,7 @@ export const Home = () => {
 						paginate={setPaginationPage}
 						pageNumber={currentPage}
 					/>
-				</>
+				</HomeContainer>
 			)}
 		</>
 	);

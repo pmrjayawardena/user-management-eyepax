@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -8,19 +7,20 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import './SingleUserStyle.jsx';
-import Input from '@mui/material/Input';
 import { CustomButton } from '../UI/Button/Button';
 const ariaLabel = { 'aria-label': 'description' };
 import Loader from '../UI/Loader/Loader';
 import { Toast } from '../UI/Toast/Toast';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { updateUser, fetchAUser } from '../../requests/UserRequest';
 import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
+import TextField from '@mui/material/TextField';
 import {
 	UserCardContainer,
 	SubmitButton,
 	ActionButtonContainer,
 	FormContainer,
+	SmallLoader,
 } from './SingleUserStyle';
 
 export const SingleUser = () => {
@@ -98,6 +98,7 @@ export const SingleUser = () => {
 							component='img'
 							image={user.avatar}
 							alt={user.first_name}
+							style={{ height: '250px', width: '250px' }}
 						/>
 						<CardContent>
 							<Typography gutterBottom variant='h5' component='div'>
@@ -111,22 +112,28 @@ export const SingleUser = () => {
 				</Card>
 				<FormContainer>
 					<form onSubmit={handleFormSubmit}>
-						<label>
-							<Input
-								placeholder='firstName'
-								value={firstName}
-								inputProps={ariaLabel}
-								onChange={handleInputChange}
-							/>
-						</label>
+						<TextField
+							label='Outlined secondary'
+							color='secondary'
+							focused
+							placeholder='firstName'
+							value={firstName}
+							inputProps={ariaLabel}
+							onChange={handleInputChange}
+						/>
+
 						<br />
-						<label>
-							<Input
-								value={lastName}
-								inputProps={ariaLabel}
-								onChange={handleInputChangeLastName}
-							/>
-						</label>
+						<br />
+						<TextField
+							label='Outlined secondary'
+							color='secondary'
+							focused
+							placeholder='lastName'
+							value={lastName}
+							inputProps={ariaLabel}
+							onChange={handleInputChangeLastName}
+						/>
+
 						<ActionButtonContainer>
 							<Link to={`/`}>
 								<CustomButton variant='outlined' size='medium'>
@@ -139,7 +146,13 @@ export const SingleUser = () => {
 								type='submit'
 								className='submit-btn'
 							>
-								{updating ? <Loader /> : 'Update'}
+								{updating ? (
+									<SmallLoader>
+										<Loader size={20} /> Updating..
+									</SmallLoader>
+								) : (
+									'Update'
+								)}
 							</SubmitButton>
 						</ActionButtonContainer>
 					</form>

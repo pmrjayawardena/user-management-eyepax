@@ -2,6 +2,7 @@ import { USER_ACTION_TYPES } from '../actionTypes/userActionTypes';
 
 const INITIAL_STATE = {
 	users: [],
+	currentUsers: [],
 	currentPage: 1,
 };
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +23,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				currentPage: payload,
+			};
+		case USER_ACTION_TYPES.SET_CURRENT_USERS:
+			return {
+				...state,
+				currentUsers: payload,
 			};
 
 		default:
