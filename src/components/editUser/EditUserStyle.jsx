@@ -6,8 +6,9 @@ export const UserCardContainer = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin-top: 3rem;
 	width: 400px;
+	margin: auto;
+	margin-top: 2rem;
 `;
 
 export const FormContainer = styled.div`
@@ -33,11 +34,11 @@ export const ActionButtonContainer = styled.nav`
 
 export const SubmitButton = styled.button`
 	border: 1px solid rgba(25, 118, 210, 0.5);
-	height: 32px;
+	height: 30px;
 	border-radius: 4px;
 	width: 100px;
-	background: transparent;
-	color: #1976d2;
-	font-size: 14px;
+	background: #2e7d32;
+	color: #fff;
+	font-size: 12px;
 	cursor: pointer;
 `;

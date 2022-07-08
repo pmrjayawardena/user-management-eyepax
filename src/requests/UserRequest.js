@@ -4,26 +4,14 @@ const BASE_API_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchAllUsers = async (currentPage) => {
 	try {
-		let usersCombined = [];
-		let promiseArray = [];
 		const allUsers = await axios.get(`${BASE_API_URL}/users?page=${currentPage}`);
-		for (let i = 1; i <= allUsers.data.total_pages; i++) {
-			promiseArray.push(axios.get(`${BASE_API_URL}/users?page=${i}`));
-		}
-
-		const data = await Promise.all(promiseArray);
-
-		for (let response of data) {
-			for (let item of response.data.data) {
-				const includes = usersCombined.includes(item.id);
-				if (!includes) {
-					usersCombined.push(item);
-				}
-			}
-		}
 
 		return {
-			users: usersCombined,
+			users: allUsers.data.data,
+			meta: {
+				total_pages: allUsers.data.total_pages,
+				page: allUsers.data.page,
+			},
 		};
 	} catch (error) {
 		return {
@@ -38,6 +26,17 @@ export const fetchAUser = async (id) => {
 	} catch (error) {
 		return {
 			error: 'error fetching the user',
+		};
+	}
+};
+
+export const addUser = async (body, id) => {
+	try {
+		const updated = axios.put(`${BASE_API_URL}/users/${id}`, body);
+		return updated;
+	} catch (error) {
+		return {
+			error: 'error updating the user',
 		};
 	}
 };

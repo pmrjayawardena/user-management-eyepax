@@ -11,3 +11,10 @@ export const setCurrentPage = (currentPage) => {
 export const setCurrentUsers = (currentUsers) => {
 	return { type: USER_ACTION_TYPES.SET_CURRENT_USERS, payload: currentUsers };
 };
+export const setMeta = (metaData) => {
+	return { type: USER_ACTION_TYPES.SET_META, payload: metaData };
+};
+
+export const setTerm = (searchTerm) => {
+	return { type: USER_ACTION_TYPES.SET_SEARCH_TERM, payload: searchTerm };
+};

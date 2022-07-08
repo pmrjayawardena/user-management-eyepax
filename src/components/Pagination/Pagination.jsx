@@ -2,9 +2,9 @@ import React from 'react';
 import './PaginationStyle.jsx';
 import { PaginateContainer, PageItemList } from './PaginationStyle';
 
-export const Pagination = ({ usersPerPage, totalUsers, paginate, pageNumber }) => {
+export const Pagination = ({ totalUsers, paginate, pageNumber, totalPages }) => {
 	const pageNumbers = [];
-	for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage); i++) {
+	for (let i = 1; i <= Math.ceil(totalPages); i++) {
 		pageNumbers.push(i);
 	}
 

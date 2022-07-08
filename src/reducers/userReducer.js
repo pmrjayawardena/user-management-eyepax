@@ -4,6 +4,8 @@ const INITIAL_STATE = {
 	users: [],
 	currentUsers: [],
 	currentPage: 1,
+	meta: {},
+	term: '',
 };
 export const userReducer = (state = INITIAL_STATE, action) => {
 	const { type, payload } = action;
@@ -18,11 +20,20 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				meta: payload,
 			};
-
+		case USER_ACTION_TYPES.SET_SEARCH_TERM:
+			return {
+				...state,
+				term: payload,
+			};
 		case USER_ACTION_TYPES.SET_CURRENT_PAGE:
 			return {
 				...state,
 				currentPage: payload,
+			};
+		case USER_ACTION_TYPES.SET_META:
+			return {
+				...state,
+				meta: payload,
 			};
 		case USER_ACTION_TYPES.SET_CURRENT_USERS:
 			return {

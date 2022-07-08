@@ -1,15 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import './SingleUserStyle.jsx';
+import { CustomButton } from '../UI/button/Button';
+const ariaLabel = { 'aria-label': 'description' };
 import Loader from '../UI/loader/Loader';
 import { Toast } from '../UI/toast/Toast';
 import { ToastContainer } from 'react-toastify';
 import { updateUser, fetchAUser } from '../../requests/UserRequest';
 import { SpinnerContainer } from '../UI/loader/LoaderStyle';
-import { UserCardContainer } from './SingleUserStyle';
+import TextField from '@mui/material/TextField';
+import {
+	UserCardContainer,
+	SubmitButton,
+	ActionButtonContainer,
+	FormContainer,
+	SmallLoader,
+} from './SingleUserStyle';
 
 export const SingleUser = ({ id }) => {
 	// let { id } = useParams();
@@ -87,21 +99,65 @@ export const SingleUser = ({ id }) => {
 							component='img'
 							image={user.avatar}
 							alt={user.first_name}
-							style={{ height: '200px', width: '100%' }}
+							style={{ height: '250px', width: '250px' }}
 						/>
 						<CardContent>
 							<Typography gutterBottom variant='h5' component='div'>
 								{user.first_name} {user.last_name}
 							</Typography>
 							<Typography variant='body2' color='text.secondary'>
-								Email: {user.email}
+								{user.email}
 							</Typography>
-							<p>
-								Name: {user.first_name} {user.last_name}
-							</p>
 						</CardContent>
 					</CardActionArea>
 				</Card>
+				<FormContainer>
+					<form onSubmit={handleFormSubmit}>
+						<TextField
+							label='Outlined primary'
+							color='primary'
+							focused
+							placeholder='firstName'
+							value={firstName}
+							inputProps={ariaLabel}
+							onChange={handleInputChange}
+						/>
+
+						<br />
+						<br />
+						<TextField
+							label='Outlined primary'
+							color='primary'
+							focused
+							placeholder='lastName'
+							value={lastName}
+							inputProps={ariaLabel}
+							onChange={handleInputChangeLastName}
+						/>
+
+						<ActionButtonContainer>
+							<Link to={`/`}>
+								<CustomButton variant='outlined' size='medium'>
+									Go back
+								</CustomButton>
+							</Link>
+							<SubmitButton
+								variant='outlined'
+								size='medium'
+								type='submit'
+								className='submit-btn'
+							>
+								{updating ? (
+									<SmallLoader>
+										<Loader size={20} /> Updating..
+									</SmallLoader>
+								) : (
+									'Update'
+								)}
+							</SubmitButton>
+						</ActionButtonContainer>
+					</form>
+				</FormContainer>
 			</UserCardContainer>
 		</>
 	);

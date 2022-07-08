@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,35 +9,71 @@ import Paper from '@mui/material/Paper';
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
 import { NoResults } from '../noResults/NoResults';
 import { CustomButton } from '../UI/button/Button';
-import { Link } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
+import { Link, useNavigate, createSearchParams } from 'react-router-dom';
+
 import TextField from '@mui/material/TextField';
 import { ToastContainer } from 'react-toastify';
-import {
-	UserContainer,
-	SearchBoxContainer,
-	ActionButtonContainer,
-	DeleteButton,
-} from './UserStyle';
+import { UserContainer, SearchBoxContainer, ActionButtonContainer } from './UserStyle';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+import { SingleUser } from '../singleUser/SingleUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTerm } from '../../actions/userActions';
 
-const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) => {
-	const [open, setOpen] = useState(false);
-	const [userId, setUserId] = useState(null);
-	const [order, setOrder] = useState(true);
-	const handleClickOpen = (id) => {
-		setOpen(true);
-		setUserId(id);
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+	[`&.${tableCellClasses.head}`]: {
+		backgroundColor: theme.palette.info.dark,
+		color: theme.palette.common.white,
+	},
+	[`&.${tableCellClasses.body}`]: {
+		fontSize: 14,
+	},
+}));
+
+const useNavigateSearch = () => {
+	const navigate = useNavigate();
+	return (pathname, params) => navigate(`${pathname}?${createSearchParams(params)}`);
+};
+const Users = ({ filteredUsers, users, deleteUser, handleSort }) => {
+	const dispatch = useDispatch();
+	const navigateSearch = useNavigateSearch();
+	const searchTerm = useSelector((state) => state.user.term);
+	const handleSetSearch = (e) => {
+		dispatch(setTerm(e.target.value));
+		if (e.target.value == '') {
+			navigateSearch('');
+		} else {
+			navigateSearch('', { term: e.target.value, sort: 'desc' });
+		}
 	};
 
+	const [open, setOpen] = useState(false);
+	const [user, setUser] = useState('');
+	const [userView, setUserView] = useState(false);
+	const [order, setOrder] = useState(false);
+
+	const handleClickOpen = (user) => {
+		setOpen(true);
+		setUser(user);
+	};
+	const handleViewUser = (user) => {
+		setUserView(true);
+		setUser(user);
+	};
+
+	const handleViewClose = () => {
+		setUserView(false);
+	};
 	const handleClose = () => {
 		setOpen(false);
 	};
 	const handleDelete = () => {
-		deleteUser(userId);
+		deleteUser(user);
 		setOpen(false);
 	};
 
@@ -46,9 +82,10 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 		handleSort(colName, order);
 	};
 
+	const handleCloseView = () => {};
+
 	return (
 		<UserContainer>
-			<h1>Users Data</h1>
 			<div>
 				<Dialog
 					open={open}
@@ -56,15 +93,30 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 					aria-labelledby='alert-dialog-title'
 					aria-describedby='alert-dialog-description'
 				>
-					<DialogTitle id='alert-dialog-title'>
-						{'Are you sure you want to delete the user?'}
-					</DialogTitle>
+					<p style={{ padding: '0px 20px' }}>
+						{`Are you sure you want to delete ${user.first_name} ${user.last_name}?`}
+					</p>
 
 					<DialogActions>
 						<Button onClick={handleClose}>Cancel</Button>
 						<Button onClick={handleDelete} autoFocus>
 							Delete
 						</Button>
+					</DialogActions>
+				</Dialog>
+			</div>
+
+			<div>
+				<Dialog
+					open={userView}
+					onClose={handleCloseView}
+					aria-labelledby='alert-dialog-title'
+					aria-describedby='alert-dialog-description'
+				>
+					<SingleUser id={user.id} />
+
+					<DialogActions>
+						<Button onClick={handleViewClose}>Cancel</Button>
 					</DialogActions>
 				</Dialog>
 			</div>
@@ -77,50 +129,92 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
-				limit={1}
+				// limit={1}
 				autoClose={100}
 			/>
 			<SearchBoxContainer>
+				<Link to={`/user/add`} style={{ textDecoration: 'none' }}>
+					<CustomButton
+						variant='contained'
+						disableElevation
+						size='small'
+						color='primary'
+					>
+						Add user
+					</CustomButton>
+				</Link>
 				<TextField
 					color='primary'
 					focused
 					id='outlined-search'
-					label='Search field'
+					label='Search'
+					placeholder='Search by firstName,lastName and email'
 					type='search'
-					onChange={(e) => handleSearch(e)}
+					onChange={(e) => handleSetSearch(e)}
 					size='small'
+					value={searchTerm}
 				/>
+
+				{/* <button variant='outlined' size='medium' onClick={() => goToPosts()}>
+					Search
+				</button> */}
 			</SearchBoxContainer>
 			<TableContainer component={Paper}>
 				<Table stickyHeader aria-label='simple table'>
 					<TableHead>
 						<TableRow>
-							<TableCell>ID</TableCell>
-							<TableCell
+							<StyledTableCell>ID</StyledTableCell>
+							<StyledTableCell
 								align='right'
-								onClick={() => changeArrows('firstName')}
+								onClick={() => changeArrows('Firstname')}
+								style={{
+									cursor: 'pointer',
+								}}
+							>
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'flex-end',
+									}}
+								>
+									{!order ? <ArrowDropUp /> : <ArrowDropDown />}
+									Firstname
+								</div>
+							</StyledTableCell>
+							<StyledTableCell
+								align='right'
+								onClick={() => changeArrows('Lastname')}
 								style={{ cursor: 'pointer' }}
 							>
-								First Name
-								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
-							</TableCell>
-							<TableCell
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'flex-end',
+									}}
+								>
+									{!order ? <ArrowDropUp /> : <ArrowDropDown />}
+									Lastname
+								</div>
+							</StyledTableCell>
+							<StyledTableCell
 								align='right'
-								onClick={() => changeArrows('lastName')}
+								onClick={() => changeArrows('Email')}
 								style={{ cursor: 'pointer' }}
 							>
-								Last Name
-								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
-							</TableCell>
-							<TableCell
-								align='right'
-								onClick={() => changeArrows('email')}
-								style={{ cursor: 'pointer' }}
-							>
-								Last Name
-								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
-							</TableCell>
-							<TableCell align='right'>Actions</TableCell>
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'flex-end',
+									}}
+								>
+									{!order ? <ArrowDropUp /> : <ArrowDropDown />}
+									Email
+								</div>
+							</StyledTableCell>
+							<StyledTableCell align='center'>Actions</StyledTableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -140,36 +234,60 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 										},
 									}}
 								>
-									<TableCell component='th' scope='row'>
+									<TableCell component='th' scope='row' align='right'>
 										{user.id}
 									</TableCell>
 									<TableCell align='right'>{user.first_name}</TableCell>
 									<TableCell align='right'>{user.last_name}</TableCell>
 									<TableCell align='right'>{user.email}</TableCell>
-									<TableCell align='right'>
+									<TableCell align='center'>
 										<ActionButtonContainer>
+											<CustomButton
+												color='info'
+												variant='contained'
+												disableElevation
+												size='small'
+												handleOnClick={() => handleViewUser(user)}
+											>
+												View
+											</CustomButton>
 											<Link to={`/user/${user.id}`}>
 												<CustomButton
-													variant='outlined'
-													size='medium'
+													variant='contained'
+													disableElevation
+													size='small'
+													color='primary'
 												>
-													View
+													Edit user
 												</CustomButton>
 											</Link>
 											<CustomButton
-												variant='outlined'
-												size='medium'
+												variant='contained'
+												size='small'
+												color='secondary'
+												disableElevation
 											>
-												<a href={`mailto:${user.email}`}>
-													Contact
+												<a
+													href={`mailto:${user.email}`}
+													style={{
+														textDecoration: 'none',
+														color: 'white',
+													}}
+												>
+													Email
 												</a>
 											</CustomButton>
-											<DeleteButton
-												className='submit-btn'
-												onClick={() => handleClickOpen(user.id)}
+											<CustomButton
+												color='error'
+												variant='contained'
+												disableElevation
+												size='small'
+												handleOnClick={() =>
+													handleClickOpen(user)
+												}
 											>
-												Delete
-											</DeleteButton>
+												DELETE
+											</CustomButton>
 										</ActionButtonContainer>
 									</TableCell>
 								</TableRow>

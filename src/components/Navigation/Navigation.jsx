@@ -13,7 +13,7 @@ export const Navigation = () => {
 			<AppBar
 				component='nav'
 				className='custom-header'
-				style={{ textDecoration: 'none', color: '#fff' }}
+				style={{ background: '#01579b' }}
 				position='fixed'
 			>
 				<Toolbar>

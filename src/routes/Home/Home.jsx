@@ -2,36 +2,62 @@ import React, { useState, useEffect } from 'react';
 import Users from '../../components/users/Users';
 import { Pagination } from '../../components/pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUsersData, setCurrentPage, setCurrentUsers } from '../../actions/userActions';
+import {
+	setUsersData,
+	setCurrentPage,
+	setCurrentUsers,
+	setMeta,
+} from '../../actions/userActions';
 import Loader from '../../components/UI/loader/Loader';
 import { Toast } from '../../components/UI/toast/Toast';
 import { sort } from '../../utils/sort';
 import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
 import { SpinnerContainer } from '../../components/UI/loader/LoaderStyle';
 import { HomeContainer } from './HomeStyle';
+import {
+	useSearchParams,
+	Navigate,
+	NavLink,
+	useNavigate,
+	createSearchParams,
+} from 'react-router-dom';
+
+const useNavigateSearch = () => {
+	const navigate = useNavigate();
+	return (pathname, params) => navigate(`${pathname}?${createSearchParams(params)}`);
+};
 export const Home = () => {
+	const navigateSearch = useNavigateSearch();
+	const [searchParams] = useSearchParams();
+
+	let term = searchParams.get('term');
+	let sortType = searchParams.get('sort');
+	let fieldName = searchParams.get('field');
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state.user.users);
 	const currentPage = useSelector((state) => state.user.currentPage);
 	const currentUsers = useSelector((state) => state.user.currentUsers);
+	const searchTerm = useSelector((state) => state.user.term);
+	const meta = useSelector((state) => state.user.meta);
+
 	const [users, setUsers] = useState(usersData);
-	const [loading, setLoading] = useState(true);
+
+	const [loading, setLoading] = useState(false);
 	const [usersPerPage, setUsersPerPage] = useState(6);
-	const [searchTerm, setSearchTerm] = useState('');
+
 	const getUsers = async () => {
-		setLoading(true);
 		try {
 			let data;
-			if (users == 0) {
+
+			if (term == null && sortType == null) {
+				setLoading(true);
 				data = await fetchAllUsers(currentPage);
 				const usersData = data.users;
 				setUsers(usersData);
+				// changeData(usersData);
+				dispatch(setMeta(data.meta));
 				dispatch(setUsersData(usersData));
 				setLoading(false);
-			} else {
-				setUsers(usersData);
-				setLoading(false);
-				return;
 			}
 		} catch (error) {
 			setLoading(false);
@@ -40,13 +66,13 @@ export const Home = () => {
 	};
 	useEffect(() => {
 		getUsers();
-	}, []);
-	const deleteUserById = async (id) => {
-		const filteredUsers = users.filter((item) => item.id != id);
+	}, [currentPage]);
+	const deleteUserById = async (user) => {
+		const filteredUsers = usersData.filter((item) => item.id != user.id);
 		setUsers(filteredUsers);
 		dispatch(setUsersData(filteredUsers));
-		Toast('Deleted record');
-		const data = await deleteUser(id);
+		Toast(`user ${user.first_name} ${user.last_name} deleted`);
+		const data = await deleteUser(user);
 	};
 
 	var setPaginationPage = (page) => {
@@ -54,16 +80,22 @@ export const Home = () => {
 	};
 
 	const handleSort = (field, type) => {
-		const sorted = sort(users, field, type);
-		setUsers(sorted);
-
-		dispatch(setUsersData(sorted.slice()));
+		navigateSearch('', {
+			term: searchTerm,
+			sort: type ? 'desc' : 'asc',
+			field: field,
+		});
 	};
 
-	const handleSearch = (e) => {
-		const searchTerm = e.target.value;
-		setSearchTerm(searchTerm);
-
+	const sortData = () => {
+		const sorted = sort(users, fieldName, sortType == 'asc' ? 1 : 0);
+		setUsers(sorted);
+	};
+	useEffect(() => {
+		sortData();
+		// dispatch(setUsersData(sorted.slice()));
+	}, [sortType]);
+	const changeData = (userData) => {
 		const searchedData = usersData.filter((item) => {
 			if (
 				item.first_name.toLowerCase().match(searchTerm.toLowerCase()) ||
@@ -76,13 +108,9 @@ export const Home = () => {
 
 		setUsers(searchedData);
 	};
-
-	let currentUsersData;
-
-	const indexOfLastUser = currentPage * usersPerPage;
-	const indexOfFirstUser = indexOfLastUser - usersPerPage;
-
-	currentUsersData = users.slice(indexOfFirstUser, indexOfLastUser);
+	useEffect(() => {
+		changeData();
+	}, [term]);
 
 	return (
 		<>
@@ -93,18 +121,16 @@ export const Home = () => {
 			) : (
 				<HomeContainer>
 					<Users
-						filteredUsers={users}
-						users={currentUsersData}
+						users={users}
 						deleteUser={deleteUserById}
-						handleSearch={handleSearch}
 						handleSort={handleSort}
 					/>
 
 					<Pagination
-						usersPerPage={usersPerPage}
 						totalUsers={users.length}
 						paginate={setPaginationPage}
 						pageNumber={currentPage}
+						totalPages={meta.total_pages}
 					/>
 				</HomeContainer>
 			)}
