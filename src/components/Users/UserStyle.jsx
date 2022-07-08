@@ -18,6 +18,7 @@ export const ActionButtonContainer = styled.nav`
 export const SearchBoxContainer = styled.nav`
 	display: flex;
 	justify-content: flex-end;
+	margin: 2rem 0;
 `;
 
 export const DeleteButton = styled.button`

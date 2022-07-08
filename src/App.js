@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { SingleUser } from './components/SingleUser/SingleUser';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigation } from './components/Navigation/Navigation';
+
 function App() {
 	return (
 		<Routes>

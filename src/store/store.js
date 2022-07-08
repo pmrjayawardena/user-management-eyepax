@@ -1,12 +1,16 @@
 import { compose, createStore, applyMiddleware } from 'redux';
-import { rootReducer } from './root-reducer';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { combineReducers } from 'redux';
+import { userReducer } from '../reducers/userReducer';
+
+export const rootReducer = combineReducers({
+	user: userReducer,
+});
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whiteList: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -10,7 +10,11 @@ import { Outlet } from 'react-router-dom';
 export const Navigation = () => {
 	return (
 		<>
-			<AppBar component='nav' className='custom-header'>
+			<AppBar
+				component='nav'
+				className='custom-header'
+				style={{ textDecoration: 'none', color: '#fff' }}
+			>
 				<Toolbar>
 					<IconButton
 						color='inherit'
@@ -25,7 +29,7 @@ export const Navigation = () => {
 							component='div'
 							sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
 						>
-							MUI
+							User Administration System
 						</Typography>
 					</Link>
 				</Toolbar>

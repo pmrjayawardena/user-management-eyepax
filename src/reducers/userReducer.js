@@ -1,26 +1,29 @@
+import { USER_ACTION_TYPES } from '../actionTypes/userActionTypes';
+
 const INITIAL_STATE = {
 	users: [],
-	meta: [],
-	count: 0,
+	currentPage: 1,
 };
 export const userReducer = (state = INITIAL_STATE, action) => {
 	const { type, payload } = action;
 	switch (type) {
-		case 'SET_USERS':
+		case USER_ACTION_TYPES.SET_USERS:
 			return {
 				...state,
 				users: payload,
 			};
-		case 'SET_META_DATA':
+		case USER_ACTION_TYPES.SET_META_DATA:
 			return {
 				...state,
 				meta: payload,
 			};
-		case 'SET_COUNT':
+
+		case USER_ACTION_TYPES.SET_CURRENT_PAGE:
 			return {
 				...state,
-				count: state.count + 1,
+				currentPage: payload,
 			};
+
 		default:
 			return state;
 	}

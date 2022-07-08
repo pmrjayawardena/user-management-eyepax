@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Users from '../../components/Users/Users';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUsersData, setMetaData, setCount } from '../../store/user.action';
+import { setUsersData, setCurrentPage } from '../../actions/userActions';
 import Loader from '../../components/UI/Loader/Loader';
 import { Toast } from '../../components/UI/Toast/Toast';
 import { sort } from '../../utils/sort';
@@ -12,24 +12,27 @@ import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
 export const Home = () => {
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state.user.users);
-	const meta = useSelector((state) => state.user.meta);
-	const count = useSelector((state) => state.user.count);
-
+	const currentPage = useSelector((state) => state.user.currentPage);
 	const [users, setUsers] = useState(usersData);
 	const [loading, setLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(1);
-
+	const [usersPerPage, setUsersPerPage] = useState(6);
+	const [searchTerm, setSearchTerm] = useState('');
 	const getUsers = async () => {
 		setLoading(true);
 		try {
-			const data = await fetchAllUsers(currentPage);
-			const usersData = data.data.data;
+			let data;
+			if (users == 0) {
+				data = await fetchAllUsers(currentPage);
+				const usersData = data.users;
+				setUsers(usersData);
+				dispatch(setUsersData(usersData));
+				setLoading(false);
+			} else {
+				//get current posts
 
-			setUsers(usersData);
-			dispatch(setUsersData(usersData));
-			dispatch(setMetaData(data.data));
-
-			setLoading(false);
+				setLoading(false);
+				return;
+			}
 		} catch (error) {
 			setLoading(false);
 			Toast('something went wrong');
@@ -45,17 +48,21 @@ export const Home = () => {
 	};
 
 	var setPaginationPage = (page) => {
-		setCurrentPage(page);
+		dispatch(setCurrentPage(page));
 	};
 
 	const handleSort = (field, type) => {
 		const sorted = sort(users, field, type);
 		setUsers(sorted);
-		dispatch(setUsersData([]));
+		dispatch(setUsersData(sorted.slice()));
 	};
 
 	const handleSearch = (e) => {
 		const searchTerm = e.target.value;
+		setSearchTerm(searchTerm);
+	};
+
+	useEffect(() => {
 		const searchedData = usersData.filter((item) => {
 			if (
 				item.first_name.toLowerCase().match(searchTerm.toLowerCase()) ||
@@ -65,12 +72,16 @@ export const Home = () => {
 				return item;
 			}
 		});
+
 		setUsers(searchedData);
-	};
+	}, [searchTerm]);
 
 	useEffect(() => {
 		getUsers();
-	}, [currentPage]);
+	}, []);
+	const indexOfLastUser = currentPage * usersPerPage;
+	const indexOfFirstUser = indexOfLastUser - usersPerPage;
+	const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
 	return (
 		<>
@@ -81,16 +92,17 @@ export const Home = () => {
 			) : (
 				<>
 					<Users
-						users={users ? users : []}
+						users={currentUsers ? currentUsers : []}
 						deleteUser={deleteUserById}
 						handleSearch={handleSearch}
 						handleSort={handleSort}
 					/>
 
 					<Pagination
-						totalPages={meta.total_pages}
+						usersPerPage={usersPerPage}
+						totalUsers={users.length}
 						paginate={setPaginationPage}
-						pageNumber={meta.page}
+						pageNumber={currentPage}
 					/>
 				</>
 			)}

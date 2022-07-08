@@ -10,9 +10,8 @@ import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
 import { NoResults } from '../NoResults/NoResults';
 import { CustomButton } from '../UI/Button/Button';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import {
 	UserContainer,
 	SearchBoxContainer,
@@ -20,14 +19,55 @@ import {
 	DeleteButton,
 } from './UserStyle';
 
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+
 const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
-	// const users = useSelector((state) => state.user.users);
-	const dispatch = useDispatch();
-	const [firstNameArrow, setFirstNameArrow] = useState(true);
+	const [open, setOpen] = React.useState(false);
+	const [userId, setUserId] = useState(null);
+	const [order, setOrder] = useState(true);
+	const handleClickOpen = (id) => {
+		setOpen(true);
+		setUserId(id);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+	const handleDelete = () => {
+		deleteUser(userId);
+		setOpen(false);
+	};
+
+	const changeArrows = (colName) => {
+		setOrder(!order);
+		handleSort(colName, order);
+	};
 
 	return (
 		<UserContainer>
 			<h1>User Administration</h1>
+			<div>
+				<Dialog
+					open={open}
+					onClose={handleClose}
+					aria-labelledby='alert-dialog-title'
+					aria-describedby='alert-dialog-description'
+				>
+					<DialogTitle id='alert-dialog-title'>
+						{'Are you sure you want to delete the user?'}
+					</DialogTitle>
+
+					<DialogActions>
+						<Button onClick={handleClose}>Cancel</Button>
+						<Button onClick={handleDelete} autoFocus>
+							Delete
+						</Button>
+					</DialogActions>
+				</Dialog>
+			</div>
 			<ToastContainer
 				position='bottom-right'
 				autoClose={5000}
@@ -55,26 +95,24 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 							<TableCell>ID</TableCell>
 							<TableCell
 								align='right'
-								onClick={() => handleSort('firstName', 'DESC')}
+								onClick={() => changeArrows('firstName')}
 							>
 								First Name
-								{firstNameArrow ? <ArrowDropUp /> : <ArrowDropDown />}
+								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
 							</TableCell>
 							<TableCell
 								align='right'
-								onClick={() => handleSort('lastName', 'ASC')}
+								onClick={() => changeArrows('lastName')}
 							>
 								Last Name
-								<ArrowDropUp />
-								<ArrowDropDown />
+								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
 							</TableCell>
 							<TableCell
 								align='right'
-								onClick={() => handleSort('email', 'ASC')}
+								onClick={() => changeArrows('email')}
 							>
-								Email
-								<ArrowDropUp />
-								<ArrowDropDown />
+								Last Name
+								{!order ? <ArrowDropUp /> : <ArrowDropDown />}
 							</TableCell>
 							<TableCell align='right'>Actions</TableCell>
 						</TableRow>
@@ -122,7 +160,7 @@ const Users = ({ users, deleteUser, handleSearch, handleSort }) => {
 											</CustomButton>
 											<DeleteButton
 												className='submit-btn'
-												onClick={() => deleteUser(user.id)}
+												onClick={() => handleClickOpen(user.id)}
 											>
 												Delete
 											</DeleteButton>

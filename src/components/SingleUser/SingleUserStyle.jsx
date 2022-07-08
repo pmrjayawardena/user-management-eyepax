@@ -6,6 +6,9 @@ export const UserCardContainer = styled.nav`
 	margin-top: 5rem;
 `;
 
+export const FormContainer = styled.div`
+	margin-top: 2rem;
+`;
 export const ActionButtonContainer = styled.nav`
 	display: flex;
 	margin-top: 2rem;

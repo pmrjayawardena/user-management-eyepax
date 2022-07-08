@@ -20,7 +20,9 @@ import {
 	UserCardContainer,
 	SubmitButton,
 	ActionButtonContainer,
+	FormContainer,
 } from './SingleUserStyle';
+
 export const SingleUser = () => {
 	let { id } = useParams();
 	const [user, setUser] = useState({});
@@ -58,6 +60,7 @@ export const SingleUser = () => {
 		);
 
 		setUpdating(false);
+
 		Toast('Updated Successfully');
 		console.log(data);
 	};
@@ -106,40 +109,41 @@ export const SingleUser = () => {
 						</CardContent>
 					</CardActionArea>
 				</Card>
-
-				<form onSubmit={handleFormSubmit}>
-					<label>
-						<Input
-							placeholder='firstName'
-							value={firstName}
-							inputProps={ariaLabel}
-							onChange={handleInputChange}
-						/>
-					</label>
-					<br />
-					<label>
-						<Input
-							value={lastName}
-							inputProps={ariaLabel}
-							onChange={handleInputChangeLastName}
-						/>
-					</label>
-					<ActionButtonContainer>
-						<Link to={`/`}>
-							<CustomButton variant='outlined' size='medium'>
-								Go back
-							</CustomButton>
-						</Link>
-						<SubmitButton
-							variant='outlined'
-							size='medium'
-							type='submit'
-							className='submit-btn'
-						>
-							{updating ? <Loader /> : 'Update'}
-						</SubmitButton>
-					</ActionButtonContainer>
-				</form>
+				<FormContainer>
+					<form onSubmit={handleFormSubmit}>
+						<label>
+							<Input
+								placeholder='firstName'
+								value={firstName}
+								inputProps={ariaLabel}
+								onChange={handleInputChange}
+							/>
+						</label>
+						<br />
+						<label>
+							<Input
+								value={lastName}
+								inputProps={ariaLabel}
+								onChange={handleInputChangeLastName}
+							/>
+						</label>
+						<ActionButtonContainer>
+							<Link to={`/`}>
+								<CustomButton variant='outlined' size='medium'>
+									Go back
+								</CustomButton>
+							</Link>
+							<SubmitButton
+								variant='outlined'
+								size='medium'
+								type='submit'
+								className='submit-btn'
+							>
+								{updating ? <Loader /> : 'Update'}
+							</SubmitButton>
+						</ActionButtonContainer>
+					</form>
+				</FormContainer>
 			</UserCardContainer>
 		</>
 	);
