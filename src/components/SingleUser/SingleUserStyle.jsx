@@ -6,6 +6,7 @@ export const UserCardContainer = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	margin-top: 3rem;
 `;
 
 export const FormContainer = styled.div`

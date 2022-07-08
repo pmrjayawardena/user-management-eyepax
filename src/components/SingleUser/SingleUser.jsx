@@ -7,13 +7,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import './SingleUserStyle.jsx';
-import { CustomButton } from '../UI/Button/Button';
+import { CustomButton } from '../UI/button/Button';
 const ariaLabel = { 'aria-label': 'description' };
-import Loader from '../UI/Loader/Loader';
-import { Toast } from '../UI/Toast/Toast';
+import Loader from '../UI/loader/Loader';
+import { Toast } from '../UI/toast/Toast';
 import { ToastContainer } from 'react-toastify';
 import { updateUser, fetchAUser } from '../../requests/UserRequest';
-import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
+import { SpinnerContainer } from '../UI/loader/LoaderStyle';
 import TextField from '@mui/material/TextField';
 import {
 	UserCardContainer,
@@ -114,8 +114,8 @@ export const SingleUser = () => {
 				<FormContainer>
 					<form onSubmit={handleFormSubmit}>
 						<TextField
-							label='Outlined secondary'
-							color='secondary'
+							label='Outlined primary'
+							color='primary'
 							focused
 							placeholder='firstName'
 							value={firstName}
@@ -126,8 +126,8 @@ export const SingleUser = () => {
 						<br />
 						<br />
 						<TextField
-							label='Outlined secondary'
-							color='secondary'
+							label='Outlined primary'
+							color='primary'
 							focused
 							placeholder='lastName'
 							value={lastName}

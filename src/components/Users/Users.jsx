@@ -7,8 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
-import { NoResults } from '../NoResults/NoResults';
-import { CustomButton } from '../UI/Button/Button';
+import { NoResults } from '../noResults/NoResults';
+import { CustomButton } from '../UI/button/Button';
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { ToastContainer } from 'react-toastify';
@@ -82,7 +82,7 @@ const Users = ({ filteredUsers, users, deleteUser, handleSearch, handleSort }) =
 			/>
 			<SearchBoxContainer>
 				<TextField
-					color='secondary'
+					color='primary'
 					focused
 					id='outlined-search'
 					label='Search field'

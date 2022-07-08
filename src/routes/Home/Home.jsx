@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Users from '../../components/Users/Users';
-import { Pagination } from '../../components/Pagination/Pagination';
+import Users from '../../components/users/Users';
+import { Pagination } from '../../components/pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsersData, setCurrentPage, setCurrentUsers } from '../../actions/userActions';
-import Loader from '../../components/UI/Loader/Loader';
-import { Toast } from '../../components/UI/Toast/Toast';
+import Loader from '../../components/UI/loader/Loader';
+import { Toast } from '../../components/UI/toast/Toast';
 import { sort } from '../../utils/sort';
 import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
-import { SpinnerContainer } from '../../components/UI/Loader/LoaderStyle';
+import { SpinnerContainer } from '../../components/UI/loader/LoaderStyle';
 import { HomeContainer } from './HomeStyle';
 export const Home = () => {
 	const dispatch = useDispatch();

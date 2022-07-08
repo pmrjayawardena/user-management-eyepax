@@ -12,15 +12,15 @@ export const PageItemList = styled.li`
 	align-items: center;
 	justify-content: center;
 	height: 40px;
-	border: 1px solid black;
+	border: 1px solid #1976d2;
 	width: 40px;
 	cursor: pointer;
 	&:hover {
-		background: #26266c;
+		background: #1976d2;
 		color: #fff;
 	}
 	&.active {
-		background: #26266c;
+		background: #1976d2;
 		color: #fff;
 	}
 `;

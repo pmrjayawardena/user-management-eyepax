@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Toast } from '../components/UI/Toast/Toast';
+import { Toast } from '../components/UI/toast/Toast';
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchAllUsers = async (currentPage) => {

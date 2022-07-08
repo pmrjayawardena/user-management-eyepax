@@ -2,9 +2,9 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route } from 'react-router-dom';
 
-import { Home } from './routes/Home/Home';
-import { SingleUser } from './components/SingleUser/SingleUser';
-import { Navigation } from './components/Navigation/Navigation';
+import { Home } from './routes/home/Home';
+import { SingleUser } from './components/singleUser/SingleUser';
+import { Navigation } from './components/navigation/Navigation';
 
 function App() {
 	return (
