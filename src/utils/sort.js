@@ -1,9 +1,8 @@
 export const sort = (users, field, type) => {
+	console.log({ field, type });
 	let usersArr = [...users];
 	let sorted;
 	if (field == 'Firstname' && type) {
-		sorted = usersArr.reverse();
-	} else {
 		sorted = usersArr.sort((a, b) => {
 			if (a.first_name < b.first_name) {
 				return -1;
@@ -12,6 +11,8 @@ export const sort = (users, field, type) => {
 				return 1;
 			}
 		});
+	} else {
+		sorted = usersArr.reverse();
 	}
 
 	if (field == 'Lastname' && type) {

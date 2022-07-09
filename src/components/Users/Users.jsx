@@ -40,18 +40,25 @@ const useNavigateSearch = () => {
 	return (pathname, params) => navigate(`${pathname}?${createSearchParams(params)}`);
 };
 const Users = ({ users, deleteUser, handleSort }) => {
+	console.log('render users');
 	const navigateSearch = useNavigateSearch();
 	const [searchParams] = useSearchParams();
 	const dispatch = useDispatch();
 	const searchTerm = useSelector((state) => state.user.term);
 
+	let sortType = searchParams.get('sort');
+	let fieldName = searchParams.get('field');
 	const handleSetSearch = (e) => {
 		dispatch(setTerm(e.target.value));
 
 		if (e.target.value == '') {
 			navigateSearch('');
 		} else {
-			navigateSearch('', { term: e.target.value });
+			navigateSearch('', {
+				term: e.target.value,
+				sort: sortType,
+				field: fieldName,
+			});
 		}
 	};
 

@@ -22,6 +22,7 @@ const useNavigateSearch = () => {
 };
 
 export const Home = () => {
+	console.log('render home');
 	const navigateSearch = useNavigateSearch();
 	const [searchParams] = useSearchParams();
 
@@ -87,10 +88,8 @@ export const Home = () => {
 		});
 	};
 
-	let filterdData;
-	const sorted = sort(usersData, fieldName, sortType == 'desc' ? 1 : 0);
-	filterdData = sorted;
-	filterdData = sorted.filter((item) => {
+	console.log({ usersData });
+	let filterdData = usersData.filter((item) => {
 		if (
 			item.first_name.toLowerCase().match(searchTerm.toLowerCase()) ||
 			item.last_name.toLowerCase().match(searchTerm.toLowerCase()) ||
@@ -100,6 +99,9 @@ export const Home = () => {
 		}
 	});
 
+	console.log({ filterdData });
+	const sorted = sort(filterdData, fieldName, sortType == 'desc' ? 1 : 0);
+	console.log({ sorted });
 	return (
 		<>
 			{loading ? (
@@ -109,7 +111,7 @@ export const Home = () => {
 			) : (
 				<HomeContainer>
 					<Users
-						users={filterdData}
+						users={sorted}
 						deleteUser={deleteUserById}
 						handleSort={handleSort}
 					/>
