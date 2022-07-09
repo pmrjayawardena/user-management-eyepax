@@ -50,6 +50,7 @@ export const AddUser = () => {
 				last_name: lastName,
 				email: email,
 			});
+			console.log(data);
 			setAdding(false);
 			Toast('User added Successfully');
 		} else {
