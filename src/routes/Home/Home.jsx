@@ -44,13 +44,18 @@ export const Home = () => {
 			let data = await fetchAllUsers(currentPage);
 			const usersDataArray = data.users;
 			let storefinal = usersDataArray.filter((item) => {
-				if (!deletedUsers.includes(item.id)) {
+				console.log(deletedUsers);
+				if (deletedUsers.length === 0) {
 					return item;
+				} else {
+					if (!deletedUsers.includes(item.id)) {
+						return item;
+					}
 				}
 			});
+
 			dispatch(setUsersData(storefinal));
 			dispatch(setMeta(data.meta));
-			dispatch(setTerm(''));
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -98,8 +103,12 @@ export const Home = () => {
 		}
 	});
 
-	const sorted = sort(filterdData, fieldName, sortType == 'desc' ? 1 : 0);
-
+	const sorted = sort(
+		filterdData,
+		fieldName == null ? 'Firstname' : 'Firstname',
+		sortType == 'desc' ? 1 : 0
+	);
+	console.log({ sorted });
 	return (
 		<>
 			{loading ? (
@@ -109,7 +118,7 @@ export const Home = () => {
 			) : (
 				<HomeContainer>
 					<Users
-						users={sorted}
+						users={sorted ? sorted : []}
 						deleteUser={deleteUserById}
 						handleSort={handleSort}
 					/>
