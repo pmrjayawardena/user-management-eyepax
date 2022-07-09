@@ -21,4 +21,5 @@ export const SearchBoxContainer = styled.nav`
 	margin: 2rem 0;
 	gap: 20px;
 	align-items: center;
+	flex-wrap: wrap;
 `;

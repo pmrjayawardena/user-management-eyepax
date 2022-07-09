@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 export const UserCardContainer = styled.nav`
-	height: 100vh;
+	min-height: 400px;
+	height: 400px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	width: 80%;
+	margin: auto;
 	margin-top: 3rem;
-	width: 400px;
 `;
 
 export const FormContainer = styled.div`

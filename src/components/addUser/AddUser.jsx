@@ -9,6 +9,10 @@ import { ToastContainer } from 'react-toastify';
 import { addUser } from '../../requests/UserRequest';
 import { SpinnerContainer } from '../UI/loader/LoaderStyle';
 import TextField from '@mui/material/TextField';
+import { useSelector } from 'react-redux';
+import { deepOrange } from '@mui/material/colors';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 import {
 	UserCardContainer,
 	SubmitButton,
@@ -25,6 +29,7 @@ export const AddUser = () => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
+	const usersData = useSelector((state) => state.user.users);
 
 	const handleInputChange = (event) => {
 		const target = event.target.value;
@@ -41,6 +46,7 @@ export const AddUser = () => {
 		setEmail(target);
 	};
 	const addUserData = async () => {
+		console.log(usersData);
 		if (firstName != '' && lastName != '' && email != '') {
 			setAdding(true);
 			const data = await addUser({
@@ -49,14 +55,11 @@ export const AddUser = () => {
 				email: email,
 			});
 			setAdding(false);
+			Toast('User added Successfully');
 		} else {
 			Toast('Please check your input feilds');
 			setAdding(false);
 		}
-
-		setAdding(false);
-
-		Toast('User added Successfully');
 	};
 
 	const handleFormSubmit = (e) => {
@@ -83,6 +86,12 @@ export const AddUser = () => {
 				limit={1}
 			/>
 			<UserCardContainer>
+				<Stack direction='row' spacing={2} alignItems='center'>
+					<Avatar sx={{ bgcolor: deepOrange[500] }} variant='square'>
+						N
+					</Avatar>
+					<h3 style={{ color: '#1976d2' }}> ADD NEW USER</h3>
+				</Stack>
 				<FormContainer>
 					<form onSubmit={handleFormSubmit}>
 						<TextField
@@ -94,6 +103,7 @@ export const AddUser = () => {
 							inputProps={ariaLabel}
 							onChange={handleInputChange}
 							size='small'
+							required
 						/>
 
 						<br />
@@ -107,6 +117,7 @@ export const AddUser = () => {
 							inputProps={ariaLabel}
 							onChange={handleInputChangeLastName}
 							size='small'
+							required
 						/>
 						<br />
 						<br />
@@ -119,6 +130,9 @@ export const AddUser = () => {
 							inputProps={ariaLabel}
 							onChange={handleInputChangeEmail}
 							size='small'
+							required
+							// error={email == ''}
+							// id='outlined-error-helper-text'
 						/>
 
 						<ActionButtonContainer>
@@ -143,7 +157,7 @@ export const AddUser = () => {
 										<Loader size={20} /> Adding..
 									</SmallLoader>
 								) : (
-									'Add'
+									'ADD'
 								)}
 							</SubmitButton>
 						</ActionButtonContainer>

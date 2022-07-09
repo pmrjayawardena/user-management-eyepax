@@ -6,6 +6,8 @@ export const UserCardContainer = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	width: 80%;
+	margin: auto;
 	margin-top: 3rem;
 `;
 
@@ -31,12 +33,13 @@ export const ActionButtonContainer = styled.nav`
 `;
 
 export const SubmitButton = styled.button`
-	border: 1px solid rgba(25, 118, 210, 0.5);
-	height: 30px;
-	border-radius: 4px;
-	width: 100px;
-	background: #2e7d32;
-	color: #fff;
-	font-size: 12px;
-	cursor: pointer;
+	border: 1px solid #9c27b0;
+    height: 28px;
+    border-radius: 4px;
+    width: 75px;
+    background: #9c27b0;
+    color: #fff;
+    font-size: 11px;
+    cursor: pointer;
+}
 `;

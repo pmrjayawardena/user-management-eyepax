@@ -5,5 +5,5 @@ export const NoResultContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	color: green;
+	color: #01579b;
 `;

@@ -1,6 +1,8 @@
 export const sort = (users, field, type) => {
 	let sorted;
 	if (field == 'Firstname' && type) {
+		sorted = users.reverse();
+	} else {
 		sorted = users.sort((a, b) => {
 			if (a.first_name < b.first_name) {
 				return -1;
@@ -9,8 +11,6 @@ export const sort = (users, field, type) => {
 				return 1;
 			}
 		});
-	} else {
-		sorted = users.reverse();
 	}
 
 	if (field == 'Lastname' && type) {

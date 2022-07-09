@@ -57,20 +57,23 @@ export const EditUser = () => {
 		setEmail(target);
 	};
 	const updateUserData = async () => {
-		setUpdating(true);
-		const data = await updateUser(
-			{
-				first_name: firstName,
-				last_name: lastName,
-				email: email,
-			},
-			id
-		);
+		if (firstName != '' && lastName != '' && email != '') {
+			setUpdating(true);
+			const data = await updateUser(
+				{
+					first_name: firstName,
+					last_name: lastName,
+					email: email,
+				},
+				id
+			);
+			console.log('updated', data);
+			setUpdating(false);
 
-		setUpdating(false);
-
-		Toast('Updated Successfully');
-		console.log(data);
+			Toast('Updated Successfully');
+		} else {
+			Toast('Please check your fields');
+		}
 	};
 
 	const handleFormSubmit = (e) => {
@@ -101,6 +104,7 @@ export const EditUser = () => {
 				limit={1}
 			/>
 			<UserCardContainer>
+				<h3>UPDATE USER</h3>
 				<Card sx={{ maxWidth: 345 }}>
 					<CardActionArea>
 						<CardMedia
@@ -109,77 +113,78 @@ export const EditUser = () => {
 							alt={user.first_name}
 							style={{ height: '200px', width: '100%' }}
 						/>
-						<CardContent>
-							<FormContainer>
-								<form onSubmit={handleFormSubmit}>
-									<TextField
-										label='Firstname'
-										color='primary'
-										focused
-										placeholder='firstName'
-										value={firstName}
-										inputProps={ariaLabel}
-										onChange={handleInputChange}
-										size='small'
-									/>
-
-									<br />
-									<br />
-									<TextField
-										label='Lastname'
-										color='primary'
-										focused
-										placeholder='lastName'
-										value={lastName}
-										inputProps={ariaLabel}
-										onChange={handleInputChangeLastName}
-										size='small'
-									/>
-									<br />
-									<br />
-									<TextField
-										label='Email'
-										color='primary'
-										focused
-										placeholder='Email'
-										value={email}
-										inputProps={ariaLabel}
-										onChange={handleInputChangeEmail}
-										size='small'
-									/>
-
-									<ActionButtonContainer>
-										<Link to={`/`}>
-											<CustomButton
-												color='primary'
-												variant='contained'
-												disableElevation
-												size='small'
-											>
-												Go back
-											</CustomButton>
-										</Link>
-										<SubmitButton
-											variant='contained'
-											size='small'
-											type='submit'
-											disableElevation
-											className='submit-btn'
-										>
-											{updating ? (
-												<SmallLoader>
-													<Loader size={20} /> Updating..
-												</SmallLoader>
-											) : (
-												'UPDATE'
-											)}
-										</SubmitButton>
-									</ActionButtonContainer>
-								</form>
-							</FormContainer>
-						</CardContent>
 					</CardActionArea>
 				</Card>
+				<FormContainer>
+					<form onSubmit={handleFormSubmit}>
+						<TextField
+							label='Firstname'
+							color='primary'
+							focused
+							placeholder='firstName'
+							value={firstName}
+							inputProps={ariaLabel}
+							onChange={handleInputChange}
+							size='small'
+							required
+						/>
+
+						<br />
+						<br />
+						<TextField
+							label='Lastname'
+							color='primary'
+							focused
+							placeholder='lastName'
+							value={lastName}
+							inputProps={ariaLabel}
+							onChange={handleInputChangeLastName}
+							size='small'
+							required
+						/>
+						<br />
+						<br />
+						<TextField
+							label='Email'
+							color='primary'
+							focused
+							placeholder='Email'
+							value={email}
+							inputProps={ariaLabel}
+							onChange={handleInputChangeEmail}
+							size='small'
+							required
+						/>
+
+						<ActionButtonContainer>
+							<Link to={`/`}>
+								<CustomButton
+									color='primary'
+									variant='contained'
+									disableElevation
+									size='small'
+								>
+									Go back
+								</CustomButton>
+							</Link>
+							<SubmitButton
+								variant='contained'
+								size='small'
+								type='submit'
+								disableElevation
+								className='submit-btn'
+							>
+								{updating ? (
+									<SmallLoader>
+										<Loader size={20} /> Updating..
+									</SmallLoader>
+								) : (
+									'UPDATE'
+								)}
+							</SubmitButton>
+						</ActionButtonContainer>
+					</form>
+				</FormContainer>
 			</UserCardContainer>
 		</>
 	);

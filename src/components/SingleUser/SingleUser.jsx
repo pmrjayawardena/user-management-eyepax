@@ -80,8 +80,8 @@ export const SingleUser = ({ id }) => {
 				pauseOnHover
 				limit={1}
 			/>
-			<UserCardContainer>
-				<Card sx={{ maxWidth: 345 }}>
+			<UserCardContainer style={{ margin: '0 20px' }}>
+				<Card sx={{ maxWidth: 500 }}>
 					<CardActionArea>
 						<CardMedia
 							component='img'
@@ -90,14 +90,9 @@ export const SingleUser = ({ id }) => {
 							style={{ height: '200px', width: '100%' }}
 						/>
 						<CardContent>
-							<Typography gutterBottom variant='h5' component='div'>
-								{user.first_name} {user.last_name}
-							</Typography>
-							<Typography variant='body2' color='text.secondary'>
-								Email: {user.email}
-							</Typography>
 							<p>
-								Name: {user.first_name} {user.last_name}
+								{user.email} <br />
+								{user.first_name} {user.last_name}
 							</p>
 						</CardContent>
 					</CardActionArea>

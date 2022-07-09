@@ -8,7 +8,7 @@ export const CustomButton = (props) => {
 			variant={variant}
 			size={size}
 			color={color}
-			style={{ fontSize: '12px' }}
+			style={{ fontSize: '11px' }}
 			onClick={handleOnClick}
 		>
 			{props.children}
