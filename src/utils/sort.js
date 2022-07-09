@@ -1,5 +1,4 @@
 export const sort = (users, field, type) => {
-	console.log({ field, type });
 	let usersArr = [...users];
 	let sorted;
 	if (field == 'Firstname') {
