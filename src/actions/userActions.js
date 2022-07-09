@@ -15,3 +15,6 @@ export const setMeta = (metaData) => {
 export const setTerm = (searchTerm) => {
 	return { type: USER_ACTION_TYPES.SET_SEARCH_TERM, payload: searchTerm };
 };
+export const setDeletedUsers = (deletedId) => {
+	return { type: USER_ACTION_TYPES.SET_DELETED_USERS, payload: deletedId };
+};

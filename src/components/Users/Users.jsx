@@ -40,7 +40,6 @@ const useNavigateSearch = () => {
 	return (pathname, params) => navigate(`${pathname}?${createSearchParams(params)}`);
 };
 const Users = ({ users, deleteUser, handleSort }) => {
-	console.log('render users');
 	const navigateSearch = useNavigateSearch();
 	const [searchParams] = useSearchParams();
 	const dispatch = useDispatch();
