@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-import { CustomButton } from '../UI/button/Button';
+import { CustomButton } from '../UI/button/button';
 const ariaLabel = { 'aria-label': 'description' };
-import Loader from '../UI/loader/Loader';
-import { Toast } from '../UI/toast/Toast';
+import Loader from '../UI/loader/loader';
+import { Toast } from '../UI/toast/toast';
 import { ToastContainer } from 'react-toastify';
-import { updateUser, fetchAUser } from '../../requests/UserRequest';
-import { SpinnerContainer } from '../UI/loader/LoaderStyle';
+import { updateUser, fetchAUser } from '../../requests/userRequest';
+import { SpinnerContainer } from '../UI/loader/loaderStyle';
 import TextField from '@mui/material/TextField';
 import {
 	UserCardContainer,
@@ -18,7 +18,7 @@ import {
 	ActionButtonContainer,
 	FormContainer,
 	SmallLoader,
-} from './EditUserStyle';
+} from './editUserStyle';
 
 export const EditUser = () => {
 	let { id } = useParams();

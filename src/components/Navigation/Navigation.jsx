@@ -1,4 +1,4 @@
-import './Navigation.css';
+import './navigation.css';
 import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';

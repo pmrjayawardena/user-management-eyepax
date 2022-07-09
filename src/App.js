@@ -2,11 +2,11 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route } from 'react-router-dom';
 
-import { Home } from './routes/home/Home';
-import { SingleUser } from './components/singleUser/SingleUser';
-import { Navigation } from './components/navigation/Navigation';
-import { AddUser } from './components/addUser/AddUser';
-import { EditUser } from './components/editUser/EditUser';
+import { Home } from './routes/home/home';
+import { SingleUser } from './components/singleUser/singleUser';
+import { Navigation } from './components/navigation/navigation';
+import { AddUser } from './components/addUser/addUser';
+import { EditUser } from './components/editUser/editUser';
 function App() {
 	return (
 		<Routes>

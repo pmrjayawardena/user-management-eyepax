@@ -1,6 +1,6 @@
 import React from 'react';
-import './PaginationStyle.jsx';
-import { PaginateContainer, PageItemList } from './PaginationStyle';
+import './paginationStyle.jsx';
+import { PaginateContainer, PageItemList } from './paginationStyle';
 
 export const Pagination = ({ paginate, pageNumber, totalPages }) => {
 	const pageNumbers = [];

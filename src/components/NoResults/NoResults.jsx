@@ -1,5 +1,5 @@
-import './NoResultsStyle.jsx';
-import { NoResultContainer } from './NoResultsStyle';
+import './noResultsStyle.jsx';
+import { NoResultContainer } from './noResultsStyle';
 export const NoResults = () => {
 	return <NoResultContainer>No Results Found</NoResultContainer>;
 };

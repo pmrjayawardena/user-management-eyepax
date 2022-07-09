@@ -3,11 +3,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-import Loader from '../UI/loader/Loader';
+import Loader from '../UI/loader/loader';
 import { ToastContainer } from 'react-toastify';
-import { fetchAUser } from '../../requests/UserRequest';
-import { SpinnerContainer } from '../UI/loader/LoaderStyle';
-import { UserCardContainer } from './SingleUserStyle';
+import { fetchAUser } from '../../requests/userRequest';
+import { SpinnerContainer } from '../UI/loader/loaderStyle';
+import { UserCardContainer } from './singleUserStyle';
 
 export const SingleUser = ({ id }) => {
 	const [user, setUser] = useState({});

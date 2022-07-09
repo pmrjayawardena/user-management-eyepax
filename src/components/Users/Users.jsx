@@ -17,10 +17,10 @@ import { tableCellClasses } from '@mui/material/TableCell';
 import { Link, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { ToastContainer } from 'react-toastify';
-import { UserContainer, SearchBoxContainer, ActionButtonContainer } from './UserStyle';
-import { NoResults } from '../noResults/NoResults';
-import { CustomButton } from '../UI/button/Button';
-import { SingleUser } from '../singleUser/SingleUser';
+import { UserContainer, SearchBoxContainer, ActionButtonContainer } from './userStyle';
+import { NoResults } from '../noResults/noResults';
+import { CustomButton } from '../UI/button/button';
+import { SingleUser } from '../singleUser/singleUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTerm } from '../../actions/userActions';
 

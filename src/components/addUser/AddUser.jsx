@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CustomButton } from '../UI/button/Button';
+import { CustomButton } from '../UI/button/button';
 const ariaLabel = { 'aria-label': 'description' };
-import Loader from '../UI/loader/Loader';
-import { Toast } from '../UI/toast/Toast';
+import Loader from '../UI/loader/loader';
+import { Toast } from '../UI/toast/toast';
 import { ToastContainer } from 'react-toastify';
-import { addUser } from '../../requests/UserRequest';
-import { SpinnerContainer } from '../UI/loader/LoaderStyle';
+import { addUser } from '../../requests/userRequest';
+import { SpinnerContainer } from '../UI/loader/loaderStyle';
 import TextField from '@mui/material/TextField';
 import { useSelector } from 'react-redux';
 import { deepOrange } from '@mui/material/colors';
@@ -18,7 +18,7 @@ import {
 	ActionButtonContainer,
 	FormContainer,
 	SmallLoader,
-} from './AddUserStyle';
+} from './addUserStyle';
 
 export const AddUser = () => {
 	const [loading, setLoading] = useState(false);

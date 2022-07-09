@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Users from '../../components/users/Users';
-import { Pagination } from '../../components/pagination/Pagination';
+import Users from '../../components/users/users';
+import { Pagination } from '../../components/pagination/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setUsersData,
@@ -8,12 +8,12 @@ import {
 	setMeta,
 	setTerm,
 } from '../../actions/userActions';
-import Loader from '../../components/UI/loader/Loader';
-import { Toast } from '../../components/UI/toast/Toast';
+import Loader from '../../components/UI/loader/loader';
+import { Toast } from '../../components/UI/toast/toast';
 import { sort } from '../../utils/sort';
-import { fetchAllUsers, deleteUser } from '../../requests/UserRequest';
-import { SpinnerContainer } from '../../components/UI/loader/LoaderStyle';
-import { HomeContainer } from './HomeStyle';
+import { fetchAllUsers, deleteUser } from '../../requests/userRequest';
+import { SpinnerContainer } from '../../components/UI/loader/loaderStyle';
+import { HomeContainer } from './homeStyle';
 import { useSearchParams, useNavigate, createSearchParams } from 'react-router-dom';
 import { setDeletedUsers } from '../../actions/userActions';
 
