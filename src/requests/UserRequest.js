@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Toast } from '../components/UI/toast/toast';
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchAllUsers = async (currentPage) => {
@@ -55,7 +54,5 @@ export const deleteUser = async (id) => {
 	try {
 		const updated = await axios.delete(`${BASE_API_URL}/users/${id}`);
 		return updated;
-	} catch (error) {
-		console.log('something went wrong');
-	}
+	} catch (error) {}
 };

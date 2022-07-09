@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CustomButton } from '../UI/button/button';
 const ariaLabel = { 'aria-label': 'description' };
 import Loader from '../UI/loader/loader';
@@ -21,6 +21,7 @@ import {
 } from './addUserStyle';
 
 export const AddUser = () => {
+	let navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const [adding, setAdding] = useState(false);
 	const [firstName, setFirstName] = useState('');
@@ -50,11 +51,13 @@ export const AddUser = () => {
 				last_name: lastName,
 				email: email,
 			});
-			console.log(data);
+
 			setAdding(false);
+
 			Toast('User added Successfully');
+			navigate('/');
 		} else {
-			Toast('Please check your input feilds');
+			Toast('Please check your input fields');
 			setAdding(false);
 		}
 	};
@@ -91,45 +94,43 @@ export const AddUser = () => {
 				</Stack>
 				<FormContainer>
 					<form onSubmit={handleFormSubmit}>
-						<TextField
-							label='Firstname'
-							color='primary'
-							focused
-							placeholder='Firstname'
-							value={firstName}
-							inputProps={ariaLabel}
-							onChange={handleInputChange}
-							size='small'
-							required
-						/>
+						<Stack direction='column' spacing={4} alignItems='center'>
+							<TextField
+								label='Firstname'
+								color='primary'
+								focused
+								placeholder='Firstname'
+								value={firstName}
+								inputProps={ariaLabel}
+								onChange={handleInputChange}
+								size='small'
+								required
+							/>
 
-						<br />
-						<br />
-						<TextField
-							label='Lastname'
-							color='primary'
-							focused
-							placeholder='Lastname'
-							value={lastName}
-							inputProps={ariaLabel}
-							onChange={handleInputChangeLastName}
-							size='small'
-							required
-						/>
-						<br />
-						<br />
-						<TextField
-							label='Email'
-							color='primary'
-							focused
-							placeholder='Email'
-							value={email}
-							inputProps={ariaLabel}
-							onChange={handleInputChangeEmail}
-							size='small'
-							required
-						/>
+							<TextField
+								label='Lastname'
+								color='primary'
+								focused
+								placeholder='Lastname'
+								value={lastName}
+								inputProps={ariaLabel}
+								onChange={handleInputChangeLastName}
+								size='small'
+								required
+							/>
 
+							<TextField
+								label='Email'
+								color='primary'
+								focused
+								placeholder='Email'
+								value={email}
+								inputProps={ariaLabel}
+								onChange={handleInputChangeEmail}
+								size='small'
+								required
+							/>
+						</Stack>
 						<ActionButtonContainer>
 							<Link to={`/`}>
 								<CustomButton

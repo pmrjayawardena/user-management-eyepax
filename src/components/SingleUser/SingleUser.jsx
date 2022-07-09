@@ -5,21 +5,19 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import Loader from '../UI/loader/loader';
 import { ToastContainer } from 'react-toastify';
-import { fetchAUser } from '../../requests/userRequest';
 import { SpinnerContainer } from '../UI/loader/loaderStyle';
 import { UserCardContainer } from './singleUserStyle';
+import { useSelector } from 'react-redux';
 
 export const SingleUser = ({ id }) => {
 	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
-
+	const usersData = useSelector((state) => state.user.users);
 	const getUser = async () => {
 		setLoading(true);
-		const data = await fetchAUser(id);
+		let singleUser = usersData.filter((user) => user.id == parseInt(id));
 		setLoading(false);
-		setUser(data.data.data);
-		setFirstName(data.data.data.first_name);
-		setLastName(data.data.data.last_name);
+		setUser(singleUser[0]);
 	};
 
 	useEffect(() => {
@@ -45,7 +43,7 @@ export const SingleUser = ({ id }) => {
 				limit={1}
 			/>
 			<UserCardContainer style={{ margin: '0 20px' }}>
-				<Card sx={{ maxWidth: 500 }}>
+				<Card sx={{ maxWidth: 600 }}>
 					<CardActionArea>
 						<CardMedia
 							component='img'
@@ -55,8 +53,9 @@ export const SingleUser = ({ id }) => {
 						/>
 						<CardContent>
 							<p>
-								{user.email} <br />
-								{user.first_name} {user.last_name}
+								Firstname: {user.first_name} <br />
+								Lastname: {user.last_name} <br />
+								Email: {user.email}
 							</p>
 						</CardContent>
 					</CardActionArea>

@@ -7,6 +7,7 @@ const INITIAL_STATE = {
 	meta: {},
 	term: '',
 	deletedUsers: [],
+	updatedUsers: [],
 };
 export const userReducer = (state = INITIAL_STATE, action) => {
 	const { type, payload } = action;
@@ -40,6 +41,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				deletedUsers: payload,
+			};
+		case USER_ACTION_TYPES.SET_UPDATED_USERS:
+			return {
+				...state,
+				updatedUsers: payload,
 			};
 		case USER_ACTION_TYPES.SET_CURRENT_USERS:
 			return {

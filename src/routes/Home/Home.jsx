@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Users from '../../components/users/users';
 import { Pagination } from '../../components/pagination/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	setUsersData,
-	setCurrentPage,
-	setMeta,
-	setTerm,
-} from '../../actions/userActions';
+import { setUsersData, setCurrentPage, setMeta } from '../../actions/userActions';
 import Loader from '../../components/UI/loader/loader';
 import { Toast } from '../../components/UI/toast/toast';
 import { sort } from '../../utils/sort';
@@ -26,12 +21,12 @@ export const Home = () => {
 	const navigateSearch = useNavigateSearch();
 	const [searchParams] = useSearchParams();
 
-	let term = searchParams.get('term');
 	let sortType = searchParams.get('sort');
 	let fieldName = searchParams.get('field');
 
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state.user.users);
+	const updatedUsers = useSelector((state) => state.user.updatedUsers);
 	const currentPage = useSelector((state) => state.user.currentPage);
 	const searchTerm = useSelector((state) => state.user.term);
 	const meta = useSelector((state) => state.user.meta);
@@ -43,8 +38,8 @@ export const Home = () => {
 			setLoading(true);
 			let data = await fetchAllUsers(currentPage);
 			const usersDataArray = data.users;
-			let storefinal = usersDataArray.filter((item) => {
-				console.log(deletedUsers);
+			let storefinal;
+			storefinal = usersDataArray.filter((item) => {
 				if (deletedUsers.length === 0) {
 					return item;
 				} else {
@@ -53,6 +48,20 @@ export const Home = () => {
 					}
 				}
 			});
+
+			let arrCopy = storefinal.slice();
+
+			if (updatedUsers.length !== 0) {
+				for (let userObject of updatedUsers) {
+					for (let dataObject of arrCopy) {
+						if (userObject.id === dataObject.id) {
+							dataObject.first_name = userObject.first_name;
+							dataObject.last_name = userObject.last_name;
+							dataObject.email = userObject.email;
+						}
+					}
+				}
+			}
 
 			dispatch(setUsersData(storefinal));
 			dispatch(setMeta(data.meta));
@@ -108,7 +117,7 @@ export const Home = () => {
 		fieldName == null ? 'Firstname' : 'Firstname',
 		sortType == 'desc' ? 1 : 0
 	);
-	console.log({ sorted });
+
 	return (
 		<>
 			{loading ? (

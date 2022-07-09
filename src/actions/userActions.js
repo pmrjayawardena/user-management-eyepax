@@ -18,3 +18,7 @@ export const setTerm = (searchTerm) => {
 export const setDeletedUsers = (deletedId) => {
 	return { type: USER_ACTION_TYPES.SET_DELETED_USERS, payload: deletedId };
 };
+
+export const setUpdatedUsers = (updatedId) => {
+	return { type: USER_ACTION_TYPES.SET_UPDATED_USERS, payload: updatedId };
+};

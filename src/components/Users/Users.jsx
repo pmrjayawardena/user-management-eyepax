@@ -239,7 +239,9 @@ const Users = ({ users, deleteUser, handleSort }) => {
 									</TableCell>
 									<TableCell align='right'>{user.first_name}</TableCell>
 									<TableCell align='right'>{user.last_name}</TableCell>
-									<TableCell align='right'>{user.email}</TableCell>
+									<TableCell align='right'>
+										<a href={`mailto:${user.email}`}>{user.email}</a>
+									</TableCell>
 									<TableCell align='center'>
 										<ActionButtonContainer>
 											<CustomButton
@@ -261,22 +263,7 @@ const Users = ({ users, deleteUser, handleSort }) => {
 													Edit
 												</CustomButton>
 											</Link>
-											<CustomButton
-												variant='contained'
-												size='small'
-												color='secondary'
-												disableElevation
-											>
-												<a
-													href={`mailto:${user.email}`}
-													style={{
-														textDecoration: 'none',
-														color: 'white',
-													}}
-												>
-													Email
-												</a>
-											</CustomButton>
+
 											<CustomButton
 												color='error'
 												variant='contained'
