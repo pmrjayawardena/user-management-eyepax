@@ -22,8 +22,6 @@ import {
 } from './AddUserStyle';
 
 export const AddUser = () => {
-	let { id } = useParams();
-	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [adding, setAdding] = useState(false);
 	const [firstName, setFirstName] = useState('');
@@ -46,7 +44,6 @@ export const AddUser = () => {
 		setEmail(target);
 	};
 	const addUserData = async () => {
-		console.log(usersData);
 		if (firstName != '' && lastName != '' && email != '') {
 			setAdding(true);
 			const data = await addUser({

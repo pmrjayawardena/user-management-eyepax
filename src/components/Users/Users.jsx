@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,7 +11,7 @@ import { NoResults } from '../noResults/NoResults';
 import { CustomButton } from '../UI/button/Button';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { Link, useNavigate, createSearchParams } from 'react-router-dom';
+import { Link, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
 
 import TextField from '@mui/material/TextField';
 import { ToastContainer } from 'react-toastify';
@@ -39,16 +39,19 @@ const useNavigateSearch = () => {
 	const navigate = useNavigate();
 	return (pathname, params) => navigate(`${pathname}?${createSearchParams(params)}`);
 };
-const Users = ({ filteredUsers, users, deleteUser, handleSort }) => {
-	const dispatch = useDispatch();
+const Users = ({ users, deleteUser, handleSort }) => {
 	const navigateSearch = useNavigateSearch();
+	const [searchParams] = useSearchParams();
+	const dispatch = useDispatch();
 	const searchTerm = useSelector((state) => state.user.term);
+
 	const handleSetSearch = (e) => {
 		dispatch(setTerm(e.target.value));
+
 		if (e.target.value == '') {
 			navigateSearch('');
 		} else {
-			navigateSearch('', { term: e.target.value, sort: 'desc' });
+			navigateSearch('', { term: e.target.value });
 		}
 	};
 
@@ -82,8 +85,6 @@ const Users = ({ filteredUsers, users, deleteUser, handleSort }) => {
 		handleSort(colName, order);
 	};
 
-	const handleCloseView = () => {};
-
 	return (
 		<UserContainer>
 			<div>
@@ -109,7 +110,6 @@ const Users = ({ filteredUsers, users, deleteUser, handleSort }) => {
 			<div>
 				<Dialog
 					open={userView}
-					onClose={handleCloseView}
 					aria-labelledby='alert-dialog-title'
 					aria-describedby='alert-dialog-description'
 				>
@@ -154,10 +154,6 @@ const Users = ({ filteredUsers, users, deleteUser, handleSort }) => {
 					size='small'
 					value={searchTerm}
 				/>
-
-				{/* <button variant='outlined' size='medium' onClick={() => goToPosts()}>
-					Search
-				</button> */}
 			</SearchBoxContainer>
 			<TableContainer component={Paper}>
 				<Table stickyHeader aria-label='simple table'>
@@ -258,7 +254,7 @@ const Users = ({ filteredUsers, users, deleteUser, handleSort }) => {
 													size='small'
 													color='primary'
 												>
-													Edit user
+													Edit
 												</CustomButton>
 											</Link>
 											<CustomButton
