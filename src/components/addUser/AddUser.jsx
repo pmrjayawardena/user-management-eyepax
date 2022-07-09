@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { CustomButton } from '../UI/button/Button';
 const ariaLabel = { 'aria-label': 'description' };
@@ -128,8 +127,6 @@ export const AddUser = () => {
 							onChange={handleInputChangeEmail}
 							size='small'
 							required
-							// error={email == ''}
-							// id='outlined-error-helper-text'
 						/>
 
 						<ActionButtonContainer>

@@ -6,21 +6,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
-import { NoResults } from '../noResults/NoResults';
-import { CustomButton } from '../UI/button/Button';
-import { styled } from '@mui/material/styles';
-import { tableCellClasses } from '@mui/material/TableCell';
-import { Link, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
-
-import TextField from '@mui/material/TextField';
-import { ToastContainer } from 'react-toastify';
-import { UserContainer, SearchBoxContainer, ActionButtonContainer } from './UserStyle';
-
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
+
+import { Link, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+import { ToastContainer } from 'react-toastify';
+import { UserContainer, SearchBoxContainer, ActionButtonContainer } from './UserStyle';
+import { NoResults } from '../noResults/NoResults';
+import { CustomButton } from '../UI/button/Button';
 import { SingleUser } from '../singleUser/SingleUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTerm } from '../../actions/userActions';
@@ -43,10 +42,15 @@ const Users = ({ users, deleteUser, handleSort }) => {
 	const navigateSearch = useNavigateSearch();
 	const [searchParams] = useSearchParams();
 	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
+	const [user, setUser] = useState('');
+	const [userView, setUserView] = useState(false);
+	const [order, setOrder] = useState(false);
 	const searchTerm = useSelector((state) => state.user.term);
 
 	let sortType = searchParams.get('sort');
 	let fieldName = searchParams.get('field');
+
 	const handleSetSearch = (e) => {
 		dispatch(setTerm(e.target.value));
 
@@ -60,11 +64,6 @@ const Users = ({ users, deleteUser, handleSort }) => {
 			});
 		}
 	};
-
-	const [open, setOpen] = useState(false);
-	const [user, setUser] = useState('');
-	const [userView, setUserView] = useState(false);
-	const [order, setOrder] = useState(false);
 
 	const handleClickOpen = (user) => {
 		setOpen(true);
@@ -135,7 +134,6 @@ const Users = ({ users, deleteUser, handleSort }) => {
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
-				// limit={1}
 				autoClose={100}
 			/>
 			<SearchBoxContainer>
