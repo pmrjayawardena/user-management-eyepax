@@ -89,9 +89,9 @@ const Users = ({ users, deleteUser, handleSort }) => {
 	};
 
 	const changeArrows = (colName) => {
-		if (colName == 'Firstname') setArrowFirstName(!arrowFirstName);
-		if (colName == 'Lastname') setArrowLastName(!arrowLastName);
-		if (colName == 'Email') setArrowEmail(!arrowEmail);
+		if (colName == 'first_name') setArrowFirstName(!arrowFirstName);
+		if (colName == 'last_name') setArrowLastName(!arrowLastName);
+		if (colName == 'email') setArrowEmail(!arrowEmail);
 
 		setOrder(!order);
 		handleSort(colName, order);

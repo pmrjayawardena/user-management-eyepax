@@ -7,9 +7,11 @@ export const UserCardContainer = styled.nav`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 80%;
 	margin: auto;
 	margin-top: 3rem;
+	.title-span {
+		color: #01579b;
+	}
 `;
 
 export const FormContainer = styled.div`

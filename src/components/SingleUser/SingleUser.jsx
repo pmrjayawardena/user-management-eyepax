@@ -52,10 +52,17 @@ export const SingleUser = ({ id }) => {
 							style={{ height: '200px', width: '100%' }}
 						/>
 						<CardContent>
-							<p>
-								Firstname: {user.first_name} <br />
-								Lastname: {user.last_name} <br />
-								Email: {user.email}
+							<p className='cus-title'>
+								<span className='title-span'>Firstname:</span>
+								{user.first_name}
+							</p>
+							<p className='cus-title'>
+								<span className='title-span'>Lastname:</span>
+								{user.last_name}
+							</p>
+							<p className='cus-title'>
+								<span className='title-span'>Email:</span>
+								{user.email}
 							</p>
 						</CardContent>
 					</CardActionArea>

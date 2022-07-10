@@ -112,11 +112,7 @@ export const Home = () => {
 		}
 	});
 
-	const sorted = sort(
-		filterdData,
-		fieldName == null ? 'Firstname' : 'Firstname',
-		sortType == 'desc' ? 1 : 0
-	);
+	const sorted = sort(filterdData, fieldName, sortType == 'desc' ? 1 : 0);
 
 	return (
 		<>

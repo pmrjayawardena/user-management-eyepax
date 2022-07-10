@@ -1,40 +1,14 @@
 export const sort = (users, field, type) => {
+	let fieldName = field == null ? 'first_name' : field;
 	let usersArr = [...users];
-
 	let sorted = usersArr.sort((a, b) => {
-		if (a.first_name < b.first_name) {
+		if (a[fieldName] < b[fieldName]) {
 			return -1;
 		}
-		if (a.first_name > b.first_name) {
+		if (a[fieldName] > b[fieldName]) {
 			return 1;
 		}
 	});
 
 	return type ? sorted : sorted.reverse();
-
-	// if (field == 'Lastname') {
-	// 	sorted = usersArr.sort((a, b) => {
-	// 		if (a.last_name < b.last_name) {
-	// 			return -1;
-	// 		}
-	// 		if (a.last_name > b.last_name) {
-	// 			return 1;
-	// 		}
-	// 	});
-	// 	return type ? sorted : sorted.reverse();
-	// }
-
-	// if (field == 'Email') {
-	// 	sorted = usersArr.sort((a, b) => {
-	// 		if (a.email < b.email) {
-	// 			return -1;
-	// 		}
-	// 		if (a.email > b.email) {
-	// 			return 1;
-	// 		}
-	// 	});
-	// 	return type ? sorted : sorted.reverse();
-	// }
-
-	return sorted;
 };
