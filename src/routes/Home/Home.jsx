@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Users from '../../components/users/users';
 import { Pagination } from '../../components/pagination/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUsersData, setCurrentPage, setMeta } from '../../actions/userActions';
+import {
+	setUsersData,
+	setCurrentPage,
+	setMeta,
+	setNewUsers,
+} from '../../actions/userActions';
 import Loader from '../../components/UI/loader/loader';
 import { Toast } from '../../components/UI/toast/toast';
 import { sort } from '../../utils/sort';
@@ -18,6 +23,7 @@ const useNavigateSearch = () => {
 };
 
 export const Home = () => {
+	const navigate = useNavigate();
 	const navigateSearch = useNavigateSearch();
 	const [searchParams] = useSearchParams();
 
@@ -31,6 +37,7 @@ export const Home = () => {
 	const searchTerm = useSelector((state) => state.user.term);
 	const meta = useSelector((state) => state.user.meta);
 	const deletedUsers = useSelector((state) => state.user.deletedUsers);
+	const newUsersData = useSelector((state) => state.user.newUsers);
 	const [loading, setLoading] = useState(false);
 
 	const getUsers = async () => {
@@ -50,7 +57,8 @@ export const Home = () => {
 			});
 
 			let arrCopy = storefinal.slice();
-
+			let metaData;
+			metaData = data.meta;
 			if (updatedUsers.length !== 0) {
 				for (let userObject of updatedUsers) {
 					for (let dataObject of arrCopy) {
@@ -63,8 +71,17 @@ export const Home = () => {
 				}
 			}
 
+			if (newUsersData.length !== 0) {
+				metaData.total_pages = metaData.total_pages + 1;
+				if (metaData.page > 2) {
+					for (let newUser of newUsersData) {
+						storefinal.push(newUser);
+					}
+				}
+			}
+
 			dispatch(setUsersData(storefinal));
-			dispatch(setMeta(data.meta));
+			dispatch(setMeta(metaData));
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -76,7 +93,15 @@ export const Home = () => {
 	}, [currentPage]);
 
 	const deleteUserById = async (user) => {
-		const filteredUsers = usersData.filter((item) => item.id != user.id);
+		let filteredUsers;
+		if (newUsersData.length !== 0) {
+			filteredUsers = newUsersData.filter((item) => item.id != user.id);
+
+			dispatch(setNewUsers(filteredUsers));
+		} else {
+			filteredUsers = usersData.filter((item) => item.id != user.id);
+		}
+
 		const deleted = usersData.filter((item) => item.id == user.id);
 
 		const includes = deletedUsers.includes(deleted[0].id);
@@ -114,6 +139,7 @@ export const Home = () => {
 
 	const sorted = sort(filterdData, fieldName, sortType == 'desc' ? 1 : 0);
 
+	const slicedUsers = sorted.slice(0, 6);
 	return (
 		<>
 			{loading ? (
@@ -123,7 +149,7 @@ export const Home = () => {
 			) : (
 				<HomeContainer>
 					<Users
-						users={sorted ? sorted : []}
+						users={slicedUsers ? slicedUsers : []}
 						deleteUser={deleteUserById}
 						handleSort={handleSort}
 					/>

@@ -13,7 +13,7 @@ import { updateUser, fetchAUser } from '../../requests/userRequest';
 import { SpinnerContainer } from '../UI/loader/loaderStyle';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import { setUpdatedUsers, setUsersData } from '../../actions/userActions';
+import { setNewUsers, setUpdatedUsers, setUsersData } from '../../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	UserCardContainer,
@@ -33,7 +33,7 @@ export const EditUser = () => {
 	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [updating, setUpdating] = useState(false);
-
+	const newUsersData = useSelector((state) => state.user.newUsers);
 	const [defaultValues, setDefaultValues] = useState({});
 	const getUser = async () => {
 		setLoading(true);
@@ -57,6 +57,16 @@ export const EditUser = () => {
 	});
 
 	const onSubmit = async (formData) => {
+		if (newUsersData.length !== 0) {
+			for (let upUser of newUsersData) {
+				if (upUser.id === parseInt(id)) {
+					upUser.first_name = formData.Firstname;
+					upUser.last_name = formData.Lastname;
+					upUser.email = formData.Email;
+					dispatch(setNewUsers([upUser]));
+				}
+			}
+		}
 		setUpdating(true);
 		const data = await updateUser(
 			{

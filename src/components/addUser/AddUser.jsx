@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { deepOrange } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import { setNewUsers } from '../../actions/userActions';
 import {
 	UserCardContainer,
 	SubmitButton,
@@ -19,15 +20,18 @@ import {
 	FormContainer,
 	SmallLoader,
 } from './addUserStyle';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 export const AddUser = () => {
 	let navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [adding, setAdding] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const usersData = useSelector((state) => state.user.users);
+	const newUsersData = useSelector((state) => state.user.newUsers);
 
 	const {
 		register,
@@ -37,14 +41,28 @@ export const AddUser = () => {
 	} = useForm();
 
 	const addUserData = async (formData) => {
+		let randomId = parseInt(Math.random() * (20 - 6) + 6, 10);
+
 		setAdding(true);
 		const data = await addUser({
 			first_name: formData.Firstname,
 			last_name: formData.Lastname,
 			email: formData.Email,
 		});
-
 		setAdding(false);
+
+		dispatch(
+			setNewUsers([
+				...newUsersData,
+				{
+					id: randomId,
+					avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHVzZXJzfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+					first_name: formData.Firstname,
+					last_name: formData.Lastname,
+					email: formData.Email,
+				},
+			])
+		);
 		Toast('User added Successfully');
 		navigate('/');
 	};

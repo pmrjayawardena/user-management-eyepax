@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 	term: '',
 	deletedUsers: [],
 	updatedUsers: [],
+	newUsers: [],
 };
 export const userReducer = (state = INITIAL_STATE, action) => {
 	const { type, payload } = action;
@@ -52,7 +53,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				currentUsers: payload,
 			};
-
+		case USER_ACTION_TYPES.SET_NEW_USERS:
+			return {
+				...state,
+				newUsers: payload,
+			};
 		default:
 			return state;
 	}

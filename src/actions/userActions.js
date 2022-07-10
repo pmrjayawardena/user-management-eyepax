@@ -22,3 +22,7 @@ export const setDeletedUsers = (deletedId) => {
 export const setUpdatedUsers = (updatedId) => {
 	return { type: USER_ACTION_TYPES.SET_UPDATED_USERS, payload: updatedId };
 };
+
+export const setNewUsers = (newUsers) => {
+	return { type: USER_ACTION_TYPES.SET_NEW_USERS, payload: newUsers };
+};
