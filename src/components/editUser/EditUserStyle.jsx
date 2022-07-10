@@ -13,6 +13,18 @@ export const UserCardContainer = styled.nav`
 
 export const FormContainer = styled.div`
 	margin-top: 2rem;
+	width: 300px;
+	input {
+		height: 35px;
+		width: 100%;
+		padding-left: 6px;
+		border-radius: 4px;
+		border: 1px solid #01579b;
+	}
+	.errorClass {
+		color: red;
+		font-size: 14px;
+	}
 `;
 
 export const SmallLoader = styled.div`
@@ -34,9 +46,9 @@ export const ActionButtonContainer = styled.nav`
 
 export const SubmitButton = styled.button`
 	border: 1px solid #9c27b0;
-    height: 28px;
+    height: 35px;
     border-radius: 4px;
-    width: 75px;
+    width: 100%;
     background: #9c27b0;
     color: #fff;
     font-size: 11px;

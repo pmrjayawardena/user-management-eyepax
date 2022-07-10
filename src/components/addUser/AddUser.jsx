@@ -19,7 +19,7 @@ import {
 	FormContainer,
 	SmallLoader,
 } from './addUserStyle';
-
+import { useForm } from 'react-hook-form';
 export const AddUser = () => {
 	let navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
@@ -29,42 +29,44 @@ export const AddUser = () => {
 	const [email, setEmail] = useState('');
 	const usersData = useSelector((state) => state.user.users);
 
-	const handleInputChange = (event) => {
-		const target = event.target.value;
-		setFirstName(target);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm();
+
+	const addUserData = async (formData) => {
+		setAdding(true);
+		const data = await addUser({
+			first_name: formData.Firstname,
+			last_name: formData.Lastname,
+			email: formData.Email,
+		});
+
+		setAdding(false);
+		Toast('User added Successfully');
+		navigate('/');
 	};
 
-	const handleInputChangeLastName = (event) => {
-		const target = event.target.value;
-		setLastName(target);
-	};
-
-	const handleInputChangeEmail = (event) => {
-		const target = event.target.value;
-		setEmail(target);
-	};
-	const addUserData = async () => {
-		if (firstName != '' && lastName != '' && email != '') {
-			setAdding(true);
-			const data = await addUser({
-				first_name: firstName,
-				last_name: lastName,
-				email: email,
-			});
-
-			setAdding(false);
-
-			Toast('User added Successfully');
-			navigate('/');
-		} else {
-			Toast('Please check your input fields');
-			setAdding(false);
+	const handleErrors = () => {
+		if (Object.keys(errors).length !== 0) {
+			if (errors.Firstname && errors.Firstname.type == 'required') {
+				return `Firstname is required`;
+			} else if (errors.Firstname && errors.Firstname.type == 'minLength') {
+				return `Minimum length should be greater than 3`;
+			}
+			if (errors.Lastname && errors.Lastname.type == 'required') {
+				return `Lastname is required`;
+			} else if (errors.Lastname && errors.Lastname.type == 'minLength') {
+				return `Minimum length should be greater than 3`;
+			}
+			if (errors.Email && errors.Email.type == 'required') {
+				return `Email is required`;
+			} else if (errors.Email && errors.Email.type == 'pattern') {
+				return `Valid Email is required`;
+			}
 		}
-	};
-
-	const handleFormSubmit = (e) => {
-		e.preventDefault();
-		addUserData();
 	};
 
 	return loading ? (
@@ -93,8 +95,52 @@ export const AddUser = () => {
 					<h3 style={{ color: '#1976d2' }}> ADD NEW USER</h3>
 				</Stack>
 				<FormContainer>
-					<form onSubmit={handleFormSubmit}>
-						<Stack direction='column' spacing={4} alignItems='center'>
+					<form onSubmit={handleSubmit(addUserData)}>
+						<Stack direction='column' spacing={1} alignItems='center'>
+							<input
+								type='text'
+								placeholder='Firstname'
+								{...register('Firstname', {
+									required: true,
+									minLength: 3,
+								})}
+							/>
+							<input
+								type='text'
+								placeholder='Lastname'
+								{...register('Lastname', {
+									required: true,
+									minLength: 3,
+								})}
+							/>
+							<input
+								type='text'
+								placeholder='Email'
+								{...register('Email', {
+									required: true,
+									pattern: /^\S+@\S+$/i,
+								})}
+							/>
+
+							<SubmitButton
+								variant='outlined'
+								size='medium'
+								type='submit'
+								className='submit-btn'
+							>
+								{adding ? (
+									<SmallLoader>
+										<Loader size={20} /> Adding..
+									</SmallLoader>
+								) : (
+									'ADD'
+								)}
+							</SubmitButton>
+							<p className='errorClass'>{handleErrors()}</p>
+							<div></div>
+						</Stack>
+					</form>
+					{/* <Stack direction='column' spacing={4} alignItems='center'>
 							<TextField
 								label='Firstname'
 								color='primary'
@@ -130,8 +176,8 @@ export const AddUser = () => {
 								size='small'
 								required
 							/>
-						</Stack>
-						<ActionButtonContainer>
+						</Stack> */}
+					{/* <ActionButtonContainer>
 							<Link to={`/`}>
 								<CustomButton
 									color='primary'
@@ -156,8 +202,7 @@ export const AddUser = () => {
 									'ADD'
 								)}
 							</SubmitButton>
-						</ActionButtonContainer>
-					</form>
+						</ActionButtonContainer> */}
 				</FormContainer>
 			</UserCardContainer>
 		</>

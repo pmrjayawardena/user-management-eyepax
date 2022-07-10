@@ -22,6 +22,7 @@ import {
 	FormContainer,
 	SmallLoader,
 } from './editUserStyle';
+import { useForm } from 'react-hook-form';
 
 export const EditUser = () => {
 	let { id } = useParams();
@@ -32,89 +33,78 @@ export const EditUser = () => {
 	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [updating, setUpdating] = useState(false);
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [email, setEmail] = useState('');
 
+	const [defaultValues, setDefaultValues] = useState({});
 	const getUser = async () => {
 		setLoading(true);
 		let singleUser = usersData.filter((user) => user.id == parseInt(id));
-		setLoading(false);
 		setUser(singleUser[0]);
-		setFirstName(singleUser[0].first_name);
-		setLastName(singleUser[0].last_name);
-		setEmail(singleUser[0].email);
+		setLoading(false);
+		reset({
+			Firstname: singleUser[0].first_name,
+			Lastname: singleUser[0].last_name,
+			Email: singleUser[0].email,
+		});
 	};
 
-	const handleInputChange = (event) => {
-		const target = event.target.value;
-		setFirstName(target);
-	};
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm({
+		defaultValues: defaultValues,
+	});
 
-	const handleInputChangeLastName = (event) => {
-		const target = event.target.value;
-		setLastName(target);
-	};
-	const handleInputChangeEmail = (event) => {
-		const target = event.target.value;
-		setEmail(target);
-	};
-	const updateUserData = async () => {
-		// setUsersData
-		// dispatch(setUsersData())
+	const onSubmit = async (formData) => {
+		setUpdating(true);
+		const data = await updateUser(
+			{
+				first_name: formData.Firstname,
+				last_name: formData.Lastname,
+				email: formData.Email,
+			},
+			id
+		);
+		const updated = usersData.filter((item) => item.id == parseInt(id));
 
-		if (firstName !== '' && lastName !== '' && email !== '') {
-			setUpdating(true);
-			const data = await updateUser(
+		if (updatedUsers.length === 0) {
+			const allUpdated = [
+				...updatedUsers,
 				{
-					first_name: firstName,
-					last_name: lastName,
-					email: email,
+					id: parseInt(id),
+					first_name: formData.Firstname,
+					last_name: formData.Lastname,
+					email: formData.Email,
 				},
-				id
-			);
-			const updated = usersData.filter((item) => item.id == parseInt(id));
-
-			if (updatedUsers.length === 0) {
-				const allUpdated = [
-					...updatedUsers,
-					{
-						id: parseInt(id),
-						first_name: firstName,
-						last_name: lastName,
-						email: email,
-					},
-				];
-				dispatch(setUpdatedUsers(allUpdated));
-			} else {
-				for (let upUser of updatedUsers) {
-					if (upUser.id === parseInt(id)) {
-						upUser.first_name = firstName;
-						upUser.last_name = lastName;
-						upUser.email = email;
-						dispatch(setUpdatedUsers([upUser]));
-					} else {
-						const allUpdated = [
-							{ ...upUser },
-							{
-								id: parseInt(id),
-								first_name: firstName,
-								last_name: lastName,
-								email: email,
-							},
-						];
-						dispatch(setUpdatedUsers(allUpdated));
-					}
+			];
+			dispatch(setUpdatedUsers(allUpdated));
+		} else {
+			for (let upUser of updatedUsers) {
+				if (upUser.id === parseInt(id)) {
+					upUser.first_name = formData.Firstname;
+					upUser.last_name = formData.Lastname;
+					upUser.email = formData.Email;
+					dispatch(setUpdatedUsers([upUser]));
+				} else {
+					const allUpdated = [
+						{ ...upUser },
+						{
+							id: parseInt(id),
+							first_name: formData.Firstname,
+							last_name: formData.Lastname,
+							email: formData.Email,
+						},
+					];
+					dispatch(setUpdatedUsers(allUpdated));
 				}
 			}
-
-			setUpdating(false);
-
-			Toast('Updated Successfully');
-			navigate('/');
-		} else {
-			Toast('Please check your fields');
 		}
+
+		setUpdating(false);
+
+		Toast('Updated Successfully');
+		navigate('/');
 	};
 
 	const handleFormSubmit = (e) => {
@@ -122,6 +112,25 @@ export const EditUser = () => {
 		updateUserData();
 	};
 
+	const handleErrors = () => {
+		if (Object.keys(errors).length !== 0) {
+			if (errors.Firstname && errors.Firstname.type == 'required') {
+				return `Firstname is required`;
+			} else if (errors.Firstname && errors.Firstname.type == 'minLength') {
+				return `Minimum length should be greater than 3`;
+			}
+			if (errors.Lastname && errors.Lastname.type == 'required') {
+				return `Lastname is required`;
+			} else if (errors.Lastname && errors.Lastname.type == 'minLength') {
+				return `Minimum length should be greater than 3`;
+			}
+			if (errors.Email && errors.Email.type == 'required') {
+				return `Email is required`;
+			} else if (errors.Email && errors.Email.type == 'pattern') {
+				return `Valid Email is required`;
+			}
+		}
+	};
 	useEffect(() => {
 		getUser();
 	}, [id]);
@@ -157,7 +166,55 @@ export const EditUser = () => {
 					</CardActionArea>
 				</Card>
 				<FormContainer>
-					<form onSubmit={handleFormSubmit}>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<Stack direction='column' spacing={1} alignItems='center'>
+							<input
+								type='text'
+								placeholder='Firstname'
+								ref={register}
+								{...register('Firstname', {
+									required: true,
+									minLength: 3,
+								})}
+							/>
+							<input
+								type='text'
+								placeholder='Lastname'
+								ref={register}
+								{...register('Lastname', {
+									required: true,
+									minLength: 3,
+								})}
+							/>
+							<input
+								type='text'
+								placeholder='Email'
+								ref={register}
+								{...register('Email', {
+									required: true,
+									pattern: /^\S+@\S+$/i,
+								})}
+							/>
+
+							<SubmitButton
+								variant='contained'
+								size='small'
+								type='submit'
+								disableElevation
+								className='submit-btn'
+							>
+								{updating ? (
+									<SmallLoader>
+										<Loader size={20} /> Updating..
+									</SmallLoader>
+								) : (
+									'UPDATE'
+								)}
+							</SubmitButton>
+							<p className='errorClass'>{handleErrors()}</p>
+						</Stack>
+					</form>
+					{/* <form onSubmit={handleFormSubmit}>
 						<Stack direction='column' spacing={4} alignItems='center'>
 							<TextField
 								label='Firstname'
@@ -222,7 +279,7 @@ export const EditUser = () => {
 								)}
 							</SubmitButton>
 						</ActionButtonContainer>
-					</form>
+					</form> */}
 				</FormContainer>
 			</UserCardContainer>
 		</>

@@ -46,6 +46,9 @@ const Users = ({ users, deleteUser, handleSort }) => {
 	const [user, setUser] = useState('');
 	const [userView, setUserView] = useState(false);
 	const [order, setOrder] = useState(false);
+	const [arrowLastName, setArrowLastName] = useState(false);
+	const [arrowFirstName, setArrowFirstName] = useState(false);
+	const [arrowEmail, setArrowEmail] = useState(false);
 	const searchTerm = useSelector((state) => state.user.term);
 
 	let sortType = searchParams.get('sort');
@@ -86,6 +89,10 @@ const Users = ({ users, deleteUser, handleSort }) => {
 	};
 
 	const changeArrows = (colName) => {
+		if (colName == 'Firstname') setArrowFirstName(!arrowFirstName);
+		if (colName == 'Lastname') setArrowLastName(!arrowLastName);
+		if (colName == 'Email') setArrowEmail(!arrowEmail);
+
 		setOrder(!order);
 		handleSort(colName, order);
 	};
@@ -160,13 +167,13 @@ const Users = ({ users, deleteUser, handleSort }) => {
 				/>
 			</SearchBoxContainer>
 			<TableContainer component={Paper}>
-				<Table stickyHeader aria-label='simple table'>
+				<Table stickyHeader aria-label='simple table' className='table-height'>
 					<TableHead>
 						<TableRow>
 							<StyledTableCell>ID</StyledTableCell>
 							<StyledTableCell
 								align='right'
-								onClick={() => changeArrows('Firstname')}
+								onClick={() => changeArrows('first_name')}
 								style={{
 									cursor: 'pointer',
 								}}
@@ -178,13 +185,17 @@ const Users = ({ users, deleteUser, handleSort }) => {
 										justifyContent: 'flex-end',
 									}}
 								>
-									{!order ? <ArrowDropUp /> : <ArrowDropDown />}
+									{!arrowFirstName ? (
+										<ArrowDropUp />
+									) : (
+										<ArrowDropDown />
+									)}
 									Firstname
 								</div>
 							</StyledTableCell>
 							<StyledTableCell
 								align='right'
-								onClick={() => changeArrows('Lastname')}
+								onClick={() => changeArrows('last_name')}
 								style={{ cursor: 'pointer' }}
 							>
 								<div
@@ -194,13 +205,13 @@ const Users = ({ users, deleteUser, handleSort }) => {
 										justifyContent: 'flex-end',
 									}}
 								>
-									{!order ? <ArrowDropUp /> : <ArrowDropDown />}
+									{!arrowLastName ? <ArrowDropUp /> : <ArrowDropDown />}
 									Lastname
 								</div>
 							</StyledTableCell>
 							<StyledTableCell
 								align='right'
-								onClick={() => changeArrows('Email')}
+								onClick={() => changeArrows('email')}
 								style={{ cursor: 'pointer' }}
 							>
 								<div
@@ -210,7 +221,7 @@ const Users = ({ users, deleteUser, handleSort }) => {
 										justifyContent: 'flex-end',
 									}}
 								>
-									{!order ? <ArrowDropUp /> : <ArrowDropDown />}
+									{!arrowEmail ? <ArrowDropUp /> : <ArrowDropDown />}
 									Email
 								</div>
 							</StyledTableCell>
